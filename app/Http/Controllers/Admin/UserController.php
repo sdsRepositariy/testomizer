@@ -16,7 +16,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        var_dump(\Auth::user()->hasRole('admin'));
         $list = User::paginate(10);
         return view('admin.users.index', ['list' => $list]);
     }
@@ -40,18 +41,18 @@ class UserController extends Controller
     public function store(ValidateUser $request)
     {
         $user = User::create([
-            'first_name'=>$request->get('first_name'),
-            'middle_name'=>$request->get('middle_name'),
-            'last_name'=>$request->get('last_name'),
-            'email'=>$request->get('email'),
-            'phone_number'=>$request->get('phone_number'),
-            'country'=>$request->get('country'),
-            'city'=>$request->get('city'),
-            'school_number'=>$request->get('school_number'),
-            'password'=>bcrypt($request->get('password'))
+            'first_name'=>$request->input('first_name'),
+            'middle_name'=>$request->input('middle_name'),
+            'last_name'=>$request->input('last_name'),
+            'email'=>$request->input('email'),
+            'phone_number'=>$request->input('phone_number'),
+            'country'=>$request->input('country'),
+            'city'=>$request->input('city'),
+            'school_number'=>$request->input('school_number'),
+            'password'=>bcrypt($request->input('password'))
         ]);
 
-        $user->roles()->attach($request->get('role_id'));
+        $user->roles()->attach($request->input('role_id'));
 
         return redirect('/users')->with(['flash_message'=>'The user'.'&nbsp;'.$user->first_name.'&nbsp;'.$user->middle_name.'&nbsp;'.$user->last_name.'&nbsp;'.'successfully created']);
     }

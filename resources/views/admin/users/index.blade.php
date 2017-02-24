@@ -25,7 +25,7 @@
                 @endif 
                 
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -33,7 +33,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody class="table-striped">
+                        <tbody>
                             @foreach($list as $user)
                             <tr>
                                 <td>

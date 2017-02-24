@@ -27,6 +27,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    //Get user role
+    public function hasRole($role)
+    {
+        foreach ($this->roles as $userRole) {
+            if($userRole->role === $role){
+                return true; 
+            }
+        }
+        return false;
+    }
+
+    //Model Relations
     public function roles()
     {
         return $this->belongsToMany('App\Models\Users\Role');
