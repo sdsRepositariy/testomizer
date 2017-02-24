@@ -15,8 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
 
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -31,12 +34,16 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
+/*
+|--------------------------------------------------------------------------
+| Admin and Users Routes
+|--------------------------------------------------------------------------
+*/
+
+//
+Route::group(['middleware'=>'auth'], function(){
+	Route::get('/home', 'Admin\HomeController@index');
+	Route::resource('users', 'Admin\UserController');
+});
 
 
-
-
-
-   
-
-
-Route::get('/home', 'HomeController@index');
