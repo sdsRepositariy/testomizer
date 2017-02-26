@@ -17,8 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {   
-        var_dump(\Auth::user()->hasRole('admin'));
-        $list = User::paginate(10);
+        $list = \Auth::user()->paginate(10);
         return view('admin.users.index', ['list' => $list]);
     }
 
@@ -40,6 +39,7 @@ class UserController extends Controller
      */
     public function store(ValidateUser $request)
     {
+        //Store new user
         $user = User::create([
             'first_name'=>$request->input('first_name'),
             'middle_name'=>$request->input('middle_name'),
@@ -52,6 +52,7 @@ class UserController extends Controller
             'password'=>bcrypt($request->input('password'))
         ]);
 
+        //Store user role
         $user->roles()->attach($request->input('role_id'));
 
         return redirect('/users')->with(['flash_message'=>'The user'.'&nbsp;'.$user->first_name.'&nbsp;'.$user->middle_name.'&nbsp;'.$user->last_name.'&nbsp;'.'successfully created']);

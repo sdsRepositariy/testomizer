@@ -42,8 +42,13 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 //
 Route::group(['middleware'=>'auth'], function(){
-	Route::get('/home', 'Admin\HomeController@index');
-	Route::resource('users', 'Admin\UserController');
+	Route::group(['middleware' => 'role:admin,user'], function () {
+    	Route::get('/home', 'Admin\HomeController@index');
+		Route::resource('users', 'Admin\UserController');
+
+	});
+	
+	
 });
 
 

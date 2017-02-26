@@ -30,12 +30,7 @@ class User extends Authenticatable
     //Get user role
     public function hasRole($role)
     {
-        foreach ($this->roles as $userRole) {
-            if($userRole->role === $role){
-                return true; 
-            }
-        }
-        return false;
+        return $this->roles->contains('role', $role);
     }
 
     //Model Relations
