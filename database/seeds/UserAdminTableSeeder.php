@@ -19,7 +19,6 @@ class UserAdminTableSeeder extends Seeder
             'last_name' => 'Serov',
             'email' => 'sdsmail1973@gmail.com',
             'phone_number' => '0503224866',
-            'password' => bcrypt('Serov001'),
             'created_at' => Carbon::now(),
 		]);
     }
