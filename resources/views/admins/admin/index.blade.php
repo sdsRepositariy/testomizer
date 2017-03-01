@@ -4,14 +4,14 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            @include('admin.sidebar')
+            @include('admins.sidebar')
         </div>
         <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <div class="pull-left">User list</div>
                     <div class="pull-right">
-                        <a class="btn btn-default" href="{{url('/users/create')}}">Add new user</a>
+                        <a class="btn btn-default" href="{{url('/admin/create')}}">Add new user</a>
                     </div>
                 </div>
 
@@ -28,7 +28,10 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>No</th>
+                                <th>Login</th>
+                                <th>Last name</th>
+                                <th>First name</th>
                                 <th>Email</th>
                                 <th>Action</th>
                             </tr>
@@ -36,11 +39,10 @@
                         <tbody>
                             @foreach($list as $user)
                             <tr>
-                                <td>
-                                    {{$user->first_name}}&nbsp;
-                                    {{$user->middle_name}}&nbsp;
-                                    {{$user->last_name}}
-                                </td>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$user->member->login}}</td>
+                                <td>{{$user->last_name}}</td>
+                                <td>{{$user->first_name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td></td>
                             </tr>

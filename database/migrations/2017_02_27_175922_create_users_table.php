@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCredentialsTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateCredentialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('credentials', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('role_id')->unsigned();
-            $table->integer('credential_id')->unsigned()->onDelete('cascade');
-            $table->string('credential_type');
-            $table->string('login', 100);
+            $table->integer('owner_id')->unsigned()->onDelete('cascade');
+            $table->string('owner_type');
+            $table->string('login', 100)->unique();
             $table->string('password', 100);
             $table->softDeletes();
+            $table->rememberToken()->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreateCredentialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('credentials');
+        Schema::dropIfExists('users');
     }
 }

@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            @include('admin.sidebar')
+            @include('admins.sidebar')
         </div>
         <div class="col-md-9">
             <div class="panel panel-default">

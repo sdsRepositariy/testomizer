@@ -1,5 +1,5 @@
 <div class="list-group">
-  <a href="{{ url('/users') }}" class="list-group-item {{\Request::is('users*') ? 'active' : ''}}">
+  <a href="{{ url('/admin') }}" class="list-group-item {{\Request::is('admin*') ? 'active' : ''}}">
     User manager
   </a>
   <a href="#test" data-toggle="collapse" class="list-group-item">Test manager</a>

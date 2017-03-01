@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'middle_name', 'last_name', 'phone_number', 'city', 'country', 'school_number', 'email',
+       //
     ];
 
     /**
@@ -28,14 +28,17 @@ class User extends Authenticatable
     ];
 
     //Get user role
-    public function hasRole($role)
-    {
-        return $this->roles->contains('role', $role);
-    }
+    // public function hasRole($role)
+    // {
+    //     return $this->roles->contains('role', $role);
+    // }
 
-    //Model Relations
-    public function roles()
+    /**------------Model Relations------------
+     *
+     * Get all of the owning commentable models.
+     */
+    public function owner()
     {
-        return $this->belongsToMany('App\Models\Users\Role');
+        return $this->morphTo();
     }
 }

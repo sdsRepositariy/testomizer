@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class CredentailsTableSeeder extends Seeder
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,12 +12,12 @@ class CredentailsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('credentials')->insert([
+        DB::table('users')->insert([
     		'role_id' => 1,
-            'credential_id' => 1,
-            'credential_type' => 'App\Models\Users\User',
+            'owner_id' => 1,
+            'owner_type' => 'App\Models\Users\Admin',
             'login' => 'a21293',
-            'password' => 'Serov001',
+            'password' => bcrypt('Serov001'),
             'created_at' => Carbon::now(),
 		]);
     }
