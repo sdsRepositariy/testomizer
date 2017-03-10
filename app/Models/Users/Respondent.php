@@ -21,6 +21,6 @@ class Respondent extends Model
      */
     public function member()
     {
-        return $this->morphOne('App\Models\Users\User', 'owner');
+        return $this->morphOne(User::class, 'owner');
     }
 }

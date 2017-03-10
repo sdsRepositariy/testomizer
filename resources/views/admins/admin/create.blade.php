@@ -8,11 +8,14 @@
         </div>
         <div class="col-md-9">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading clearfix">
                     @if($admin->exists === true)
-                    {{'Update the user data'}}
+                    <div class="pull-left">Update the user data</div>
+                    <div class="pull-right">
+                      <a class="btn btn-default" href="{{url('/admin/'.$admin->id.'/edit')}}">Edit</a>
+                    </div>
                     @else
-                    {{'Fill up user data'}}
+                    <div class="pull-left">Fill up user data</div>
                     @endif
                 </div>
 
@@ -20,10 +23,10 @@
 
                     @if($admin->exists === true)
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin', $admin->id) }}">
-                    {{method_field('PUT')}}
+                    {{ method_field('PUT') }}
                     @else
                     <form class="form-horizontal" method="POST" action="{{ url('/admin')}}">
-                    {{method_field('POST')}}
+                    {{ method_field('POST') }}
                     @endif
                     {{ csrf_field() }}
 
@@ -31,7 +34,7 @@
                        <label for="first_name" class="col-md-4 control-label">First name</label>
 
                        <div class="col-md-6">
-                           <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name', $admin->first_name) }}" required autofocus>
+                           <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name', $admin->first_name) }}" required autofocus {{ isset($show) ? 'disabled' : '' }}>
 
                            @if ($errors->has('first_name'))
                            <span class="help-block">
@@ -45,7 +48,7 @@
                        <label for="middle_name" class="col-md-4 control-label">Middle name</label>
 
                        <div class="col-md-6">
-                           <input id="middle_name" type="text" class="form-control" name="middle_name" value="{{ old('middle_name', $admin->middle_name) }}" required>
+                           <input id="middle_name" type="text" class="form-control" name="middle_name" value="{{ old('middle_name', $admin->middle_name) }}" required {{ isset($show) ? 'disabled' : '' }}>
 
                            @if ($errors->has('middle_name'))
                            <span class="help-block">
@@ -59,7 +62,7 @@
                        <label for="last_name" class="col-md-4 control-label">Last name</label>
 
                        <div class="col-md-6">
-                           <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name', $admin->last_name) }}" required>
+                           <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name', $admin->last_name) }}" required {{ isset($show) ? 'disabled' : '' }}>
 
                            @if ($errors->has('last_name'))
                            <span class="help-block">
@@ -73,7 +76,7 @@
                        <label for="email" class="col-md-4 control-label">Email</label>
 
                        <div class="col-md-6">
-                           <input id="email" type="email" class="form-control" name="email" required value="{{ old('email', $admin->email) }}">
+                           <input id="email" type="email" class="form-control" name="email" required value="{{ old('email', $admin->email) }}" {{ isset($show) ? 'disabled' : '' }}>
 
                            @if ($errors->has('email'))
                            <span class="help-block">
@@ -87,7 +90,7 @@
                        <label for="phone_number" class="col-md-4 control-label">Phone number</label>
 
                        <div class="col-md-6">
-                           <input id="phone_number" type="number" class="form-control" name="phone_number" value="{{ old('phone_number', $admin->phone_number) }}" required>
+                           <input id="phone_number" type="number" class="form-control" name="phone_number" value="{{ old('phone_number', $admin->phone_number) }}" required {{ isset($show) ? 'disabled' : '' }}>
 
                            @if ($errors->has('phone_number'))
                            <span class="help-block">
@@ -101,7 +104,7 @@
                        <label for="country" class="col-md-4 control-label">Country</label>
 
                        <div class="col-md-6">
-                           <input id="country" type="text" class="form-control" name="country" value="{{ old('country', $admin->country) }}">
+                           <input id="country" type="text" class="form-control" name="country" value="{{ old('country', $admin->country) }}" {{ isset($show) ? 'disabled' : '' }}>
 
                            @if ($errors->has('country'))
                            <span class="help-block">
@@ -115,7 +118,7 @@
                        <label for="city" class="col-md-4 control-label">City</label>
 
                        <div class="col-md-6">
-                           <input id="city" type="text" class="form-control" name="city" value="{{ old('city', $admin->city) }}">
+                           <input id="city" type="text" class="form-control" name="city" value="{{ old('city', $admin->city) }}" {{ isset($show) ? 'disabled' : '' }}>
 
                            @if ($errors->has('city'))
                            <span class="help-block">
@@ -129,7 +132,7 @@
                        <label for="school_number" class="col-md-4 control-label">School number</label>
 
                        <div class="col-md-6">
-                           <input id="school_number" type="number" class="form-control" name="school_number" value="{{ old('school_number', $admin->school_number) }}">
+                           <input id="school_number" type="number" class="form-control" name="school_number" value="{{ old('school_number', $admin->school_number) }}" {{ isset($show) ? 'disabled' : '' }}>
 
                            @if ($errors->has('school_number'))
                            <span class="help-block">
@@ -139,19 +142,13 @@
                        </div>
                    </div>
 
+                   @if(!isset($show))
                    <div class="form-group">
-                       <div class="col-md-8 col-md-offset-4">
-                           <button type="submit" class="btn btn-primary">
-
-                               @if($admin->exists === true)
-                               {{'Update'}}
-                               @else
-                               {{'Save'}}
-                               @endif
-
-                           </button>
-                       </div>
+                      <div class="col-md-8 col-md-offset-4">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                      </div>
                    </div>
+                   @endif
 
                 </div>
             </div>

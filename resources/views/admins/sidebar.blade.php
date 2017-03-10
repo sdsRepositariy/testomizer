@@ -1,7 +1,9 @@
 <div class="list-group">
-  <a href="{{ url('/admin') }}" class="list-group-item {{\Request::is('admin*') ? 'active' : ''}}">
+  @can('create', App\Models\Users\Admin::class)
+    <a href="{{ url('/admin') }}" class="list-group-item {{\Request::is('admin*') ? 'active' : ''}}">
     User manager
-  </a>
+    </a>
+  @endcan
   <a href="#test" data-toggle="collapse" class="list-group-item">Test manager</a>
   <div id="test" class="collapsing">
   	<a href="#" class="list-group-item clearfix">

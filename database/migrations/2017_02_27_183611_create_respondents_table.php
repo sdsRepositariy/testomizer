@@ -19,6 +19,7 @@ class CreateRespondentsTable extends Migration
             $table->string('first_name', 255);
             $table->string('middle_name', 255);
             $table->string('last_name', 255);
+            $table->date('birthday');
             $table->string('reference', 255)->nullable();
             $table->string('email', 255)->nullable();
             $table->string('phone_number', 45)->nullable();

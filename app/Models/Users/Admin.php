@@ -3,10 +3,19 @@
 namespace App\Models\Users;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Admin extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +31,6 @@ class Admin extends Model
      */
     public function member()
     {
-        return $this->morphOne('App\Models\Users\User', 'owner');
+        return $this->morphOne(User::class, 'owner');
     }
 }

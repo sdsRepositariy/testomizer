@@ -5,11 +5,11 @@ namespace App\Traits;
 trait CreateCredentials 
 {
 	/**
-    * Make login which begins with letters and then digits 
-    * e.g."a12345".
-    *
-    * @var $digitQty defines digits quantity
-    * @var $lettarQty defines letters quantity
+     * Make login which begins with letters and then digits 
+     * e.g."a12345".
+     *
+     * @var $digitQty defines digits quantity
+     * @var $letterQty defines letters quantity
     */
     public function createLogin($letterQty, $digitQty) 
 	{ 
@@ -37,14 +37,19 @@ trait CreateCredentials
 
 
 	/**
-    * Create random password.
-    *
-    * @var $passLenght defines password lenght 
-    * 
+     * Create random password.
+     *
+     * @var $passLenght defines password lenght 
+     * 
     */
     public function createPassword($passLenght) 
-    {
-    	
-
-    }
+    {	
+		$keySpace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$str = '';
+    	$keyLenght = strlen($keySpace) - 1;
+    	for ($i = 0; $i < $passLenght; $i++) {
+        	$str .= $keySpace[random_int(0, $keyLenght)];
+    	}
+    	return $str;
+	}
 }

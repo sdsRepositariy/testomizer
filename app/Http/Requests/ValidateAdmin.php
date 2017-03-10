@@ -27,7 +27,7 @@ class ValidateAdmin extends FormRequest
             'first_name' => 'required|alpha|max:255',
             'middle_name' => 'required|alpha|max:255',
             'last_name' => 'required|alpha|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:admins,email,'.$this->segment(2).'',
             'phone_number' => 'required|max:45',
             'country' => 'alpha|nullable|max:255',
             'city' => 'alpha|nullable|max:255',

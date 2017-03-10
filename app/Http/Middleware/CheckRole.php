@@ -14,12 +14,14 @@ class CheckRole
      * @param  string  $role
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, $role1, $role2)
     {
-        // if (! $request->user()->hasRole($role)) {
-        //     return redirect ('/');
-        // }
+        //user()->role retrived from relations defined in the User model
+        $userRole = $request->user()->role->role;
+        if ($userRole!=$role1 && $userRole!=$role2) {
+            return redirect ('/');
+        }
 
-        // return $next($request);
+        return $next($request);
     }
 }

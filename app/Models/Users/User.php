@@ -2,20 +2,30 @@
 
 namespace App\Models\Users;
 
+use App\Models\Users\Role as Role;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    use SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-       //
+    protected $fillable = ['owner_id', 'owner_type', 'role_id', 'login', 'password'
     ];
 
     /**
@@ -27,18 +37,17 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    //Get user role
-    // public function hasRole($role)
-    // {
-    //     return $this->roles->contains('role', $role);
-    // }
-
-    /**------------Model Relations------------
-     *
-     * Get all of the owning commentable models.
-     */
+    /**------------Model Relations------------*/
+    
+    //Get all owners of the user models.
     public function owner()
     {
         return $this->morphTo();
+    }
+
+    //Get the role associated with the user.
+     public function role()
+    {
+         return $this->belongsTo(Role::class);
     }
 }
