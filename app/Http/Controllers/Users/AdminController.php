@@ -26,7 +26,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $user = \Auth::user();
         $admin = new Admin();
         if ($user->can('view', $admin)) {
@@ -60,25 +60,16 @@ class AdminController extends Controller
     public function store(ValidateAdmin $request)
     {
         if (\Auth::user()->can('create', Admin::class)) {
-            //Store new admin
-            $admin = Admin::create([
-                'first_name'=>$request->input('first_name'),
-                'middle_name'=>$request->input('middle_name'),
-                'last_name'=>$request->input('last_name'),
-                'email'=>$request->input('email'),
-                'phone_number'=>$request->input('phone_number'),
-                'country'=>$request->input('country'),
-                'city'=>$request->input('city'),
-                'school_number'=>$request->input('school_number'),
-            ]);
+            $input = $request->all();
+            $admin = Admin::create($input);
 
             /**--Store admin credentials in User model--*/
         
             //Create unique login
-            while(true){
+            while (true) {
                 //createLogin(int $letterQty, int $digitQty)
                 $login = $this->createLogin(1, 5);
-                if(!User::all()->contains('login', $login)){
+                if (!User::all()->contains('login', $login)) {
                     break;
                 }
             }
@@ -93,15 +84,15 @@ class AdminController extends Controller
             ]);
 
             $admin->member()->save($newUser);
-        
-            return redirect('/admin')->with([
-                'flash_message'=>'The user'.'&nbsp;'.
-                $admin->first_name.'&nbsp;'.
-                $admin->last_name.'&nbsp;'.
-                'successfully created'.'&nbsp;'.
-                'password '.$password
-            ]);
 
+            $message = [
+                'flash_message'=>'The user'.'&nbsp;'
+                .$admin->first_name.'&nbsp;'.$admin->last_name
+                .'&nbsp;'.'successfully created'.'&nbsp;'
+                .'password '.$password
+            ];
+        
+            return redirect('/admin')->with($message);
         } else {
             return redirect()->back();
         }
@@ -114,19 +105,14 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         $user = \Auth::user();
         $admin = Admin::findOrFail($id);
         if ($user->cant('view', $admin)) {
             return redirect()->back();
         } else {
-            $show = true;
-            return view('admins.admin.create', [
-                'admin' => $admin,
-                'show' => $show
-            ]);
+            return view('admins.admin.create', ['admin' => $admin]);
         }
-        
     }
 
     /**
@@ -136,7 +122,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         $user = \Auth::user();
         $admin = Admin::findOrFail($id);
         if ($user->cant('update', $admin)) {
@@ -160,23 +146,15 @@ class AdminController extends Controller
         if ($user->cant('update', $admin)) {
             return redirect()->back();
         } else {
-            $admin->update([
-                'first_name'=>$request->input('first_name'),
-                'middle_name'=>$request->input('middle_name'),
-                'last_name'=>$request->input('last_name'),
-                'email'=>$request->input('email'),
-                'phone_number'=>$request->input('phone_number'),
-                'country'=>$request->input('country'),
-                'city'=>$request->input('city'),
-                'school_number'=>$request->input('school_number'),
-            ]);
+            $input = $request->all();
+            $admin->update($input);
 
-            return redirect('/admin')->with([
-                'flash_message'=>'The user'.'&nbsp;'.
-                $admin->first_name.'&nbsp;'.
-                $admin->last_name.'&nbsp;'.
-                'successfully updated'
-            ]);
+            $message = [
+                'flash_message'=>'The user'.'&nbsp;'.$admin->first_name
+                .'&nbsp;'.$admin->last_name.'&nbsp;'.'successfully updated'
+            ];
+
+            return redirect('/admin')->with($message);
         }
     }
 
@@ -195,13 +173,12 @@ class AdminController extends Controller
             $admin->delete();
             $admin->member()->delete();
 
-            return redirect()->back()->with([
-                'flash_message'=>'The user'.'&nbsp;'.
-                $admin->first_name.'&nbsp;'.
-                $admin->last_name.'&nbsp;'.
-                'successfully deleted'
-            ]);
+            $message = [
+                'flash_message'=>'The user'.'&nbsp;'.$admin->first_name
+                .'&nbsp;'.$admin->last_name.'&nbsp;'.'successfully deleted'
+            ];
 
+            return redirect()->back()->with($message);
         } else {
             return redirect()->back();
         }

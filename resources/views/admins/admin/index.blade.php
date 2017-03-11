@@ -30,6 +30,7 @@
                                 <th>First name</th>
                                 <th>Email</th>
                                 <th>Login</th>
+                                <th>Status</th>
                                 <th colspan="2">Action</th>
                             </tr>
                         </thead>
@@ -37,13 +38,16 @@
                             @foreach($list as $user)
                             <tr>
                                 <td>{{ (($list->currentPage() - 1 ) * $list->perPage() ) + $loop->iteration }}</td>
-                                <td>{{$user->last_name}}</td>
-                                <td>{{$user->first_name}}</td>
-                                <td>{{$user->email}}</td>
-                                <td>{{$user->member->login}}</td>
+                                <td>{{ $user->last_name }}</td>
+                                <td>{{ $user->first_name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->member->login }}</td>
+                                <td>
+                                    <span class="text-success glyphicon glyphicon-ok"></span>
+                                </td>
                                 <td>
                                     <a class="btn btn-info btn-xs" href="{{url('/admin', $user->id)}}">
-                                        <span class="glyphicon glyphicon-edit"></span>
+                                        <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </td>
                                 <td>

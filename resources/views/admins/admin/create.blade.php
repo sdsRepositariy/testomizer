@@ -9,15 +9,38 @@
         <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
-                    @if($admin->exists === true)
-                    <div class="pull-left">Update the user data</div>
-                    <div class="pull-right">
-                      <a class="btn btn-default" href="{{url('/admin/'.$admin->id.'/edit')}}">Edit</a>
+                  <div class='row'>
+
+                    <div class="col-md-6">
+                      <div class="pull-left">
+                        <p>
+                          @if($admin->exists === true)
+                            {{ 'User: '.$admin->member->login }}
+                          @else 
+                            {{ 'Fill up user data' }}
+                          @endif
+                        </p>
+                      </div>
                     </div>
-                    @else
-                    <div class="pull-left">Fill up user data</div>
-                    @endif
-                </div>
+
+                    <div class="col-md-6 hidden-xs">
+                      <a class="close" href="{{ url('/admin') }}">Exit</a>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 col-md-offset-4 text-left">
+                      @if($admin->exists === true)
+                      <div class="btn-group">
+                        <a class="btn btn-default" href="{{url('/admin/'.$admin->id.'/edit')}}">Edit account</a>
+                      </div> 
+                      <div class="btn-group">
+                        <a class="btn btn-default" href="#">Change password</a>
+                      </div> 
+                      @endif
+                    </div>
+                  </div>
+                 </div>
 
                 <div class="panel-body">
 
@@ -34,7 +57,7 @@
                        <label for="first_name" class="col-md-4 control-label">First name</label>
 
                        <div class="col-md-6">
-                           <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name', $admin->first_name) }}" required autofocus {{ isset($show) ? 'disabled' : '' }}>
+                           <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name', $admin->first_name) }}" required autofocus {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'disabled' }}>
 
                            @if ($errors->has('first_name'))
                            <span class="help-block">
@@ -48,7 +71,7 @@
                        <label for="middle_name" class="col-md-4 control-label">Middle name</label>
 
                        <div class="col-md-6">
-                           <input id="middle_name" type="text" class="form-control" name="middle_name" value="{{ old('middle_name', $admin->middle_name) }}" required {{ isset($show) ? 'disabled' : '' }}>
+                           <input id="middle_name" type="text" class="form-control" name="middle_name" value="{{ old('middle_name', $admin->middle_name) }}" required {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'disabled' }}>
 
                            @if ($errors->has('middle_name'))
                            <span class="help-block">
@@ -62,7 +85,7 @@
                        <label for="last_name" class="col-md-4 control-label">Last name</label>
 
                        <div class="col-md-6">
-                           <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name', $admin->last_name) }}" required {{ isset($show) ? 'disabled' : '' }}>
+                           <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name', $admin->last_name) }}" required {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'disabled' }}>
 
                            @if ($errors->has('last_name'))
                            <span class="help-block">
@@ -76,7 +99,7 @@
                        <label for="email" class="col-md-4 control-label">Email</label>
 
                        <div class="col-md-6">
-                           <input id="email" type="email" class="form-control" name="email" required value="{{ old('email', $admin->email) }}" {{ isset($show) ? 'disabled' : '' }}>
+                           <input id="email" type="email" class="form-control" name="email" required value="{{ old('email', $admin->email) }}" {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'disabled' }}>
 
                            @if ($errors->has('email'))
                            <span class="help-block">
@@ -90,7 +113,7 @@
                        <label for="phone_number" class="col-md-4 control-label">Phone number</label>
 
                        <div class="col-md-6">
-                           <input id="phone_number" type="number" class="form-control" name="phone_number" value="{{ old('phone_number', $admin->phone_number) }}" required {{ isset($show) ? 'disabled' : '' }}>
+                           <input id="phone_number" type="number" class="form-control" name="phone_number" value="{{ old('phone_number', $admin->phone_number) }}" required {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'disabled' }}>
 
                            @if ($errors->has('phone_number'))
                            <span class="help-block">
@@ -104,7 +127,7 @@
                        <label for="country" class="col-md-4 control-label">Country</label>
 
                        <div class="col-md-6">
-                           <input id="country" type="text" class="form-control" name="country" value="{{ old('country', $admin->country) }}" {{ isset($show) ? 'disabled' : '' }}>
+                           <input id="country" type="text" class="form-control" name="country" value="{{ old('country', $admin->country) }}" {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'disabled' }}>
 
                            @if ($errors->has('country'))
                            <span class="help-block">
@@ -118,7 +141,7 @@
                        <label for="city" class="col-md-4 control-label">City</label>
 
                        <div class="col-md-6">
-                           <input id="city" type="text" class="form-control" name="city" value="{{ old('city', $admin->city) }}" {{ isset($show) ? 'disabled' : '' }}>
+                           <input id="city" type="text" class="form-control" name="city" value="{{ old('city', $admin->city) }}" {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'disabled' }}>
 
                            @if ($errors->has('city'))
                            <span class="help-block">
@@ -132,7 +155,7 @@
                        <label for="school_number" class="col-md-4 control-label">School number</label>
 
                        <div class="col-md-6">
-                           <input id="school_number" type="number" class="form-control" name="school_number" value="{{ old('school_number', $admin->school_number) }}" {{ isset($show) ? 'disabled' : '' }}>
+                           <input id="school_number" type="number" class="form-control" name="school_number" value="{{ old('school_number', $admin->school_number) }}" {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'disabled' }}>
 
                            @if ($errors->has('school_number'))
                            <span class="help-block">
@@ -142,7 +165,7 @@
                        </div>
                    </div>
 
-                   @if(!isset($show))
+                   @if(Request::is('*/edit')||Request::is('*/create'))
                    <div class="form-group">
                       <div class="col-md-8 col-md-offset-4">
                         <button type="submit" class="btn btn-primary">Save</button>
