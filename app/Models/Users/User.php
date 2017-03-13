@@ -42,12 +42,12 @@ class User extends Authenticatable
     //Get all owners of the user models.
     public function owner()
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 
     //Get the role associated with the user.
-     public function role()
+    public function role()
     {
-         return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class);
     }
 }

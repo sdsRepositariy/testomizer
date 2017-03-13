@@ -35,6 +35,17 @@ class AdminPolicy
     }
 
     /**
+     * Determine if the given user can view users list.
+     *
+     * @param  App\Models\Users\User  $user
+     * @return bool
+    */
+    public function getList(User $user)
+    {
+        return false;
+    }
+
+    /**
      * Determine if the given user can view the others.
      *
      * @param  App\Models\Users\User  $user

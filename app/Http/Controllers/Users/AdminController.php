@@ -28,9 +28,8 @@ class AdminController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $admin = new Admin();
-        if ($user->can('view', $admin)) {
-            $list = Admin::paginate(5);
+        if ($user->can('getList', Admin::class)) {
+            $list = Admin::withTrashed()->orderBy('last_name', 'asc')->paginate(5);
             return view('admins.admin.index', ['list' => $list]);
         } else {
             return redirect('/home');
@@ -69,7 +68,7 @@ class AdminController extends Controller
             while (true) {
                 //createLogin(int $letterQty, int $digitQty)
                 $login = $this->createLogin(1, 5);
-                if (!User::all()->contains('login', $login)) {
+                if (!User::withTrashed()->get()->contains('login', $login)) {
                     break;
                 }
             }
@@ -175,7 +174,7 @@ class AdminController extends Controller
 
             $message = [
                 'flash_message'=>'The user'.'&nbsp;'.$admin->first_name
-                .'&nbsp;'.$admin->last_name.'&nbsp;'.'successfully deleted'
+                .'&nbsp;'.$admin->last_name.'&nbsp;'.'successfully disabled'
             ];
 
             return redirect()->back()->with($message);

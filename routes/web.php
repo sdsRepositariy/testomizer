@@ -41,14 +41,11 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 */
 
 //
-Route::group(['middleware'=>'auth'], function(){
-	Route::group(['middleware' => 'role:admin,superadmin'], function () {
-    	Route::get('/home', 'Users\HomeController@index');
-		Route::resource('admin', 'Users\AdminController');
-
-	});
-	
-	
+Route::group(['middleware'=>'auth'], function () {
+    Route::group(['middleware' => 'role:admin,superadmin'], function () {
+        Route::get('/home', 'Users\HomeController@index');
+        Route::resource('admin', 'Users\AdminController');
+        Route::post('admin/{id}/restore', 'Users\DeleteController@restoreTrashed');
+        Route::post('admin/{id}/harddelete', 'Users\DeleteController@hardDelete');
+    });
 });
-
-

@@ -11,25 +11,19 @@
                 <div class="panel-heading clearfix">
                   <div class='row'>
 
-                    <div class="col-md-6">
+                  <div class="col-sm-4 col-xs-12">
                       <div class="pull-left">
                         <p>
                           @if($admin->exists === true)
-                            {{ 'User: '.$admin->member->login }}
+                          {{ 'User: '.$admin->member->login }}
                           @else 
-                            {{ 'Fill up user data' }}
+                          {{ 'Fill up user data' }}
                           @endif
                         </p>
                       </div>
                     </div>
 
-                    <div class="col-md-6 hidden-xs">
-                      <a class="close" href="{{ url('/admin') }}">Exit</a>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6 col-md-offset-4 text-left">
+                    <div class="col-sm-6 col-xs-12">
                       @if($admin->exists === true)
                       <div class="btn-group">
                         <a class="btn btn-default" href="{{url('/admin/'.$admin->id.'/edit')}}">Edit account</a>
@@ -39,8 +33,13 @@
                       </div> 
                       @endif
                     </div>
+
+                    <div class="col-sm-2 hidden-xs">
+                      <a class="close" href="{{ url('/admin') }}">Exit</a>
+                    </div>
                   </div>
-                 </div>
+
+                </div>
 
                 <div class="panel-body">
 

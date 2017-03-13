@@ -31,6 +31,6 @@ class Admin extends Model
      */
     public function member()
     {
-        return $this->morphOne(User::class, 'owner');
+        return $this->morphOne(User::class, 'owner')->withTrashed();
     }
 }
