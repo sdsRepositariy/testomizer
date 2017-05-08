@@ -1,0 +1,71 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            @include('admin.sidebar')
+        </div>
+        <div class="col-md-9">
+            @if ( \Session::has('flash_message') )
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                {{ \Session::get('flash_message') }}
+            </div>
+            @endif
+        	<div class="panel panel-default">
+        		<!-- Nav tabs -->
+        		<ul class="nav nav-pills nav-justified">
+        			@foreach ($roles as $role)
+        			<li class="{{\Request::is('settings/permissions/'.$role->role) ? 'active' : ''}}">
+        				<a href="{{ url('settings/permissions/'.$role->role) }}" class="text-capitalize">{{ $role->role }}</a>
+        			</li>
+        			@endforeach
+        		</ul>
+        		<div class="panel-heading">
+        		  <h4>The set of permissions for role: <span class="text-capitalize">"{{ $currentRole->role }}"</span></h4>
+        		</div>
+          
+        		<form method="POST" action="{{ url('settings/permissions', $currentRole->role) }}">
+                    {{ csrf_field() }}
+        			<div class="table-responsive">
+        				<table class="table table-striped">
+        					<thead>
+        						<tr>
+        							<th>Objects</th>
+        							@foreach ($permissions as $permission)
+        							<th class="text-capitalize">{{ $permission->name }}</th>
+        							@endforeach
+        						</tr>
+        					</thead>
+        					<tbody>
+        						@foreach ($objects as $object)
+        						<tr>
+        							<td>
+                                        <span class="text-capitalize">
+                                            {{ $object->slug }}
+                                        </span>
+                                    </td>
+        							@foreach ($permissions as $permission)
+        							<td>
+                                        @php
+                                        $allow = $permission->roles()->where('object_id', $object->id)->where('role_id', $currentRole->id)->get()->isNotEmpty();
+                                        @endphp
+        								<input type="checkbox" value="{{ $permission->id }}" {{ ($allow)? 'checked' : "" }} name="{{ $object->id.'-'.$permission->id }}">
+        							</td>
+        							@endforeach
+        						</tr>
+        						@endforeach
+        					</tbody>
+        				</table>
+        			</div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+        		</form>
+        	</div>
+        </div>
+    </div>
+</div>
+
+@endsection

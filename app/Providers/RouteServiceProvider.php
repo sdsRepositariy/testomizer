@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Roles\Role as Role;
+use App\Models\Users\User as User;
+use App\Models\Users\UserGroup as UserGroup;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,8 +26,18 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::bind('usergroup', function ($value) {
+            return UserGroup::where('group', $value)->firstOrFail();
+        });
 
+        Route::bind('role', function ($value) {
+            return Role::where('role', $value)->firstOrFail();
+        });
+
+        Route::bind('user', function ($value) {
+            return User::where('id', $value)->firstOrFail();
+        });
+        
         parent::boot();
     }
 

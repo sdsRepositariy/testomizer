@@ -2,7 +2,9 @@
 
 namespace App\Models\Users;
 
-use App\Models\Users\Role as Role;
+use App\Models\Roles\Role as Role;
+use App\Models\Users\Grade as Grade;
+use App\Models\Communities\Community as Community;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,7 +27,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['owner_id', 'owner_type', 'role_id', 'login', 'password'
+    protected $fillable = ['community_id', 'role_id', 'first_name', 'middle_name', 'last_name', 'login', 'password', 'birthday', 'email', 'phone_number',
     ];
 
     /**
@@ -37,17 +39,45 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /**------------Model Relations------------*/
-    
-    //Get all owners of the user models.
-    public function owner()
+    /**
+     * Check if given role is Superadmin.
+     * The superadmin role has not parents
+     * so we will check if the role has a parent
+     *
+     * @return bool
+    */
+    public function isSuperadmin()
     {
-        return $this->morphTo()->withTrashed();
+        return $this->role->role_id === null;
     }
 
+   
+    /**------------Model relationships------------*/
+    
+    
     //Get the role associated with the user.
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Get the user group that owns the user.
+     */
+    public function userGroup()
+    {
+        return $this->belongsTo(UserGroup::class);
+    }
+
+    //Get community associated with the user.
+    public function community()
+    {
+        return $this->belongsTo(Community::class);
+    }
+
+    //Get grade associated with the user.
+    public function grade()
+    {
+        return $this->belongsToMany(Grade::class);
     }
 }

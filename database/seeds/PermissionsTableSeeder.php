@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Carbon\Carbon;
 
-class RolesTableSeeder extends Seeder
+class PermissionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,19 +11,19 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
+        DB::table('permissions')->insert([
             [
-                'role' => 'superadmin',
+                'name' => 'view',
             ],
             [
-                'role' => 'admin',
+                'name' => 'create',
             ],
             [
-                'role' => 'user',
+                'name' => 'update',
             ],
             [
-                'role' => 'respondent',
-            ]
+                'name' => 'delete',
+            ],
         ]);
     }
 }

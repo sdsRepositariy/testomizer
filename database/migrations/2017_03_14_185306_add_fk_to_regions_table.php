@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRolesTable extends Migration
+class AddFkToRegionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('role', 45)->unique();
+        Schema::table('regions', function (Blueprint $table) {
+            $table->foreign('country_id')->references('id')->on('countries');
         });
     }
 
@@ -26,6 +25,8 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::table('regions', function (Blueprint $table) {
+            $table->dropForeign('regions_country_id_foreign');
+        });
     }
 }

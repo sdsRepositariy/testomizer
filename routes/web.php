@@ -42,10 +42,17 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 //
 Route::group(['middleware'=>'auth'], function () {
-    Route::group(['middleware' => 'role:admin,superadmin'], function () {
-        Route::get('/home', 'Users\HomeController@index');
-        Route::resource('admin', 'Users\AdminController');
-        Route::post('admin/{id}/restore', 'Users\DeleteController@restoreTrashed');
-        Route::post('admin/{id}/harddelete', 'Users\DeleteController@hardDelete');
+    
+    Route::group(['prefix' => 'usergroup/{usergroup}'], function () {
+        Route::get('user', 'Users\UserListController@index');
+        Route::post('user/{id}/restore', 'Users\DeleteController@restoreTrashed');
+        Route::post('user/{id}/harddelete', 'Users\DeleteController@hardDelete');
+        Route::resource('user', 'Users\UserController', ['except' => ['index']]);
     });
+        
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('permissions/{role}', 'Roles\PermissionController@index');
+        Route::post('permissions/{role}', 'Roles\PermissionController@save');
+    });
+    Route::get('/home', 'Users\HomeController@index');
 });
