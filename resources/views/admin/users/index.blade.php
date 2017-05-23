@@ -39,9 +39,30 @@
                         @if(\Gate::allows('create', 'user'))
                         <div class="col-xs-12 col-sm-4">
                             <div class="text-right header-button">
-                                <a class="btn btn-default" href="{{ url($slug, 'create') }}" data-toggle="tooltip" title="Download users from xls">
+                                <button type="button" class="btn btn-default" id="callupload" data-toggle="tooltip" title="Upload users from xls">
                                     <span class="glyphicon glyphicon-download-alt icon-plus"></span>
-                                </a>
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="upload" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                <h4 class="modal-title text-left">Select file for upload</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="upload.php" method="post" enctype="multipart/form-data">
+                                                    <input type="file" name="fileToUpload" id="fileToUpload">
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Upload</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 @if($usergroup != 'parents')
                                 <a class="btn btn-default" href="{{ url($slug, 'create') }} " data-toggle="tooltip" title="Add new user">
                                     <span class=" glyphicon glyphicon-plus"></span>
