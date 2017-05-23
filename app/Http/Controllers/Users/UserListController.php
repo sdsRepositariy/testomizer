@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Users;
 
 use App\Models\Users\User as User;
 use App\Models\Roles\Role as Role;
+use App\Models\Users\Level as Level;
+use App\Models\Users\Stream as Stream;
+use App\Models\Users\Period as Period;
+use App\Models\Users\UserGroup as UserGroup;
 use App\Models\Communities\Community as Community;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,15 +50,20 @@ class UserListController extends Controller
 
         // Check if user can see resource
         if (\Gate::denies('view', 'user')) {
-            abort(404);
+            abort(403);
         }
 
         //Get query string
         $queryString = $request->query();
        
         //Build DB query
-        $query = User::where('user_group_id', $userGroup->id);
-
+        if ($userGroup->group == 'parents') {
+            //For user group 'parents' leading list is students list
+            $query = User::where('user_group_id', UserGroup::where('group', 'students')->firstOrFail()->id)->with('parent');
+        } else {
+            $query = User::where('user_group_id', $userGroup->id);
+        }
+      
         $query = $this->getFilter($query, $queryString);
 
         if (isset($queryString['search'])) {
@@ -67,13 +76,16 @@ class UserListController extends Controller
         $sort = $this->getSort($userGroup, $queryString);
 
         $list = $query->orderBy($sort['sort'], $sort['order'])->paginate(5);
-
+        
         return view('admin.users.index', [
             'list' => $list,
             'slug' => 'usergroup/'.$userGroup->group.'/user',
             'communities' => Community::all(),
             'usergroup' => $userGroup->group,
             'roles' => Role::all(),
+            'levels' => Level::all(),
+            'streams' => Stream::all(),
+            'periods' => Period::all(),
             'session' => \Session::get($userGroup->group),
         ]);
     }

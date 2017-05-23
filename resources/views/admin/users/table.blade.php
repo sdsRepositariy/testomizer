@@ -5,10 +5,6 @@
             @if($usergroup == "teachers")
             <th>Role</th>
             @endif
-            @if($usergroup == "students")
-            <th>Level</th>
-            <th>Stream</th>
-            @endif
             <th>Login</th>
             <th class="sort">
                 <div class="pull-left">Last name</div>
@@ -40,8 +36,12 @@
                     </a>
                 </div>
             </th>
+            @if($usergroup == "parents")
+            <th>Parent</th>
+            @endif
             <th>Email</th>
             <th>Status</th>
+            @if($usergroup != "parents")
             <th class="sort">
                 <div class="pull-left">Created</div>
                 <div class="pull-right">
@@ -56,7 +56,8 @@
                     </a>
                 </div>
             </th>
-            <th colspan="2">Action</th>
+            @endif
+            <th colspan="{{ $usergroup=='parents' ? '3' : '2'}}">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -66,14 +67,23 @@
                 @if($usergroup == "teachers")
                 <td>{{ $user->role->role }}</td>
                 @endif
-                @if($usergroup == "students")
-                <td></td>
-                <td></td>
-                @endif
                 <td>{{ $user->login }}</td>
                 <td>{{ $user->last_name }}</td>
                 <td>{{ $user->first_name }}</td>
+                @if($usergroup == "parents")
+                <td>
+                @if($user->parent != null)
+                    {{ $user->parent->last_name.'&nbsp;'.$user->parent->first_name}}
+                @endif
+                </td>
+                <td>
+                @if($user->parent != null)
+                    {{$user->parent->email}}
+                @endif
+                </td>
+                @else
                 <td>{{ $user->email }}</td>
+                @endif
                 <td>
                 @if ( !$user->trashed() )
                     <span class="text-success glyphicon glyphicon-ok"></span>
@@ -81,16 +91,32 @@
                     <span class="text-danger glyphicon glyphicon-trash"></span>
                 @endif
                 </td>
-                <td>{{ $user->created_at->toDateString() }}</td>    
+                @if($usergroup != 'parents')
+                <td>
+                @if($user->created_at != null)
+                   {{ $user->created_at->toDateString() }}
+                @endif
+                </td>
+                @endif
+                @if($usergroup == 'parents'&& \Gate::allows('create', 'user'))
+                <td>
+                    <form class="form-horizontal" method="GET" action="{{ url($slug, 'create') }}">
+                        <input type="hidden" name="student" value="{{ $user->id }}">
+                        <button class="btn btn-default btn-xs" data-toggle="tooltip" title="Add user" type='submit'>
+                            <span class=" glyphicon glyphicon-plus"></span>
+                        </button>
+                    </form>
+                </td>
+                @endif
                 <td>
                 @if ( !$user->trashed() )
-                    <a class="btn btn-info btn-xs" href="{{ url($slug, $user->id) }}">
+                    <a class="btn btn-info btn-xs" href="{{ url($slug, $user->id) }}" data-toggle="tooltip" title="View user">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
                 @else
                     <form method="POST" action="{{ url($slug.'/'.$user->id.'/restore') }}">
                     {{ csrf_field() }}
-                        <button type="submit" class="btn btn-success btn-xs">
+                        <button type="submit" class="btn btn-success btn-xs" data-toggle="tooltip" title="Restore user">
                             <span class="glyphicon glyphicon-refresh"></span>
                         </button>
                     </form>
@@ -105,15 +131,15 @@
                 @endif
                     {{ csrf_field() }}
 
-                    @if (\Gate::allows('delete', 'user'))
-                        <button type="submit" class="btn btn-danger btn-xs">
-                        @if ( !$user->trashed() )
-                          <span class="glyphicon glyphicon-trash"></span>
-                        @else
-                          <span class="glyphicon glyphicon-remove"></span>
-                        @endif
-                        </button>
+                @if (\Gate::allows('delete', 'user'))
+                    <button type="submit" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete user">
+                    @if ( !$user->trashed() )
+                        <span class="glyphicon glyphicon-trash"></span>
+                    @else
+                        <span class="glyphicon glyphicon-remove"></span>
                     @endif
+                    </button>
+                @endif
                     </form> 
                 </td>
             </tr>

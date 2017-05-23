@@ -42,9 +42,11 @@
                                 <a class="btn btn-default" href="{{ url($slug, 'create') }}" data-toggle="tooltip" title="Download users from xls">
                                     <span class="glyphicon glyphicon-download-alt icon-plus"></span>
                                 </a>
+                                @if($usergroup != 'parents')
                                 <a class="btn btn-default" href="{{ url($slug, 'create') }} " data-toggle="tooltip" title="Add new user">
                                     <span class=" glyphicon glyphicon-plus"></span>
                                 </a>
+                                @endif
                             </div>                        
                         </div>
                         @endcan  
@@ -122,7 +124,7 @@
                                 </div> 
                             </form>
                         </div>
-                        @if($usergroup == "students")  
+                        @if($usergroup == "students" || $usergroup == "parents")  
                         <div class="col-xs-12 col-md-2">
                             <div>Level</div>
                              <form class="filter" action="{{ url($slug) }}" method="GET">
@@ -131,13 +133,13 @@
                                         <div class="selected text-left"></div>
                                         <span class="caret"></span>
                                     </button>
-                                    <input type="text" hidden value="" name="role">
+                                    <input type="text" hidden value="" name="level">
                                     <ul class="dropdown-menu">
-                                        <li data-selected='{{ $session["role"]=="all" ? "true" : "" }}' data-value="all">All</li>
+                                        <li data-selected='{{ $session["level"]=="all" ? "true" : "" }}' data-value="all">All</li>
                                         <li class="divider"></li>
-                                        @foreach ($roles as $role)
-                                        <li data-selected='{{ $session["role"]==$role->role ? "true" : "" }}' data-value="{{ $role->role }}">
-                                        {{ $role->role }}
+                                        @foreach ($levels as $level)
+                                        <li data-selected='{{ $session["level"]==$level->number ? "true" : "" }}' data-value="{{ $level->number }}">
+                                        {{ $level->number }}
                                         </li>
                                         @endforeach
                                     </ul>
@@ -152,13 +154,13 @@
                                         <div class="selected text-left"></div>
                                         <span class="caret"></span>
                                     </button>
-                                    <input type="text" hidden value="" name="role">
+                                    <input type="text" hidden value="" name="stream">
                                     <ul class="dropdown-menu">
-                                        <li data-selected='{{ $session["role"]=="all" ? "true" : "" }}' data-value="all">All</li>
+                                        <li data-selected='{{ $session["stream"]=="all" ? "true" : "" }}' data-value="all">All</li>
                                         <li class="divider"></li>
-                                        @foreach ($roles as $role)
-                                        <li data-selected='{{ $session["role"]==$role->role ? "true" : "" }}' data-value="{{ $role->role }}">
-                                        {{ $role->role }}
+                                        @foreach ($streams as $stream)
+                                        <li data-selected='{{ $session["stream"]==$stream->name ? "true" : "" }}' data-value="{{ $stream->name }}">
+                                        {{ $stream->name }}
                                         </li>
                                         @endforeach
                                     </ul>
@@ -166,20 +168,18 @@
                             </form>
                         </div> 
                         <div class="col-xs-12 col-md-2">
-                            <div>Academic year</div>
+                            <div>Period</div>
                              <form class="filter" action="{{ url($slug) }}" method="GET">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                                         <div class="selected text-left"></div>
                                         <span class="caret"></span>
                                     </button>
-                                    <input type="text" hidden value="" name="role">
+                                    <input type="text" hidden value="" name="period">
                                     <ul class="dropdown-menu">
-                                        <li data-selected='{{ $session["role"]=="all" ? "true" : "" }}' data-value="all">All</li>
-                                        <li class="divider"></li>
-                                        @foreach ($roles as $role)
-                                        <li data-selected='{{ $session["role"]==$role->role ? "true" : "" }}' data-value="{{ $role->role }}">
-                                        {{ $role->role }}
+                                        @foreach ($periods as $period)
+                                        <li data-selected='{{ $session["period"]==$period->period() ? "true" : "" }}' data-value="{{ $period->period() }}">
+                                        {{ $period->period() }}
                                         </li>
                                         @endforeach
                                     </ul>

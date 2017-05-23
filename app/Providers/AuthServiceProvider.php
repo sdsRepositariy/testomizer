@@ -15,10 +15,8 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $policies = [
-        User::class => UserPolicy::class,
-    ];
-    
+    protected $policies;
+        
     /**
      * Register any authentication / authorization services.
      *
@@ -26,8 +24,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         Gate::define('view', function ($user, $object) {
             $objectId = Object::where('slug', $object)
                 ->firstOrFail()

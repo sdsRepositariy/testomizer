@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ObjectsTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
         $this->call(UserGroupsTableSeeder::class);
+        $this->call(PeriodsTableSeeder::class);
+        $this->call(LevelsTableSeeder::class);
+        $this->call(StreamsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
     }
 }

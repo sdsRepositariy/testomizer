@@ -3,7 +3,6 @@
 namespace App\Models\Users;
 
 use App\Models\Roles\Role as Role;
-use App\Models\Users\Grade as Grade;
 use App\Models\Communities\Community as Community;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,7 +26,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['community_id', 'role_id', 'first_name', 'middle_name', 'last_name', 'login', 'password', 'birthday', 'email', 'phone_number',
+    protected $fillable = ['community_id', 'role_id', 'first_name', 'middle_name', 'last_name', 'login', 'password', 'birthday', 'email', 'phone_number', 'user_group_id', 'user_id',
     ];
 
     /**
@@ -69,15 +68,23 @@ class User extends Authenticatable
         return $this->belongsTo(UserGroup::class);
     }
 
-    //Get community associated with the user.
+    //Get the community associated with the user.
     public function community()
     {
         return $this->belongsTo(Community::class);
     }
 
-    //Get grade associated with the user.
-    public function grade()
+    //Get the grade associated with the user.
+    public function grades()
     {
         return $this->belongsToMany(Grade::class);
+    }
+
+    /**
+     * Get the parent of a student.
+     */
+    public function parent()
+    {
+        return $this->hasOne(__CLASS__);
     }
 }

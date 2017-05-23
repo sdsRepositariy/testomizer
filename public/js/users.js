@@ -12,8 +12,8 @@ $('[data-toggle="tooltip"]').tooltip()
 
 //Get name of selected item
 $(".filter").each(function() {
-	var communityName = $(this).find("li[data-selected='true']").text();
-	$(this).find("div.selected").text(communityName);
+	var selectedItem = $(this).find("li[data-selected='true']").text();
+	$(this).find("div.selected").text(selectedItem);
 });
 
 $( ".filter li" ).click(function() {
