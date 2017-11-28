@@ -23,7 +23,7 @@ class RoleFilter implements FilterInterface
      *
      * @return Illuminate/Database/Eloquent/Builder
     */
-    public function filter($query, $filter, $attribute)
+    public function apply($query, $filter, $attribute)
     {
         $userGroup = \Route::input('usergroup')->group;
 

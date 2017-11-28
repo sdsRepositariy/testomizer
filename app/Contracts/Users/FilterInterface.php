@@ -4,9 +4,8 @@ namespace App\Contracts\Users;
 
 interface FilterInterface
 {
- 
     /**
-     * Prepare query filter
+     * The query filter
      *
      * @param Illuminate/Database/Eloquent/Builder $query
      * @param bool $filter
@@ -14,5 +13,5 @@ interface FilterInterface
      *
      * @return Illuminate/Database/Eloquent/Builder
     */
-    public function filter($query, $filter, $attribute);
+    public function apply($query, $filter, $attribute);
 }

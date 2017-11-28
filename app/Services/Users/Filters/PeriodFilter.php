@@ -29,7 +29,7 @@ class PeriodFilter implements FilterInterface
             ['year_start', '<=', $currentDate],
             ['year_end', '>=', $currentDate],
         ])->first();
-          
+
         $this->defaultValue = Carbon::parse($currentPeriod->year_start)
             ->year."-".Carbon::parse($currentPeriod->year_end)->year;
     }
@@ -43,7 +43,7 @@ class PeriodFilter implements FilterInterface
      *
      * @return Illuminate/Database/Eloquent/Builder
     */
-    public function filter($query, $filter, $attribute)
+    public function apply($query, $filter, $attribute)
     {
         $userGroup = \Route::input('usergroup')->group;
 

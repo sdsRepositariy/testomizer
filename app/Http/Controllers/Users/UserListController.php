@@ -118,7 +118,7 @@ class UserListController extends Controller
             //Apply filter
             if (class_exists($className)) {
                 $filterInst = new $className;
-                $query = $filterInst->filter($query, $filter, $attribute);
+                $query = $filterInst->apply($query, $filter, $attribute);
             }
         }
 

@@ -17,6 +17,7 @@ class AddFkToGradesTable extends Migration
             $table->foreign('period_id')->references('id')->on('periods');
             $table->foreign('level_id')->references('id')->on('levels');
             $table->foreign('stream_id')->references('id')->on('streams');
+            $table->foreign('community_id')->references('id')->on('communities');
         });
     }
 
@@ -31,6 +32,7 @@ class AddFkToGradesTable extends Migration
             $table->dropForeign('grades_level_id_foreign');
             $table->dropForeign('grades_period_id_foreign');
             $table->dropForeign('grades_stream_id_foreign');
+            $table->dropForeign('grades_community_id_foreign');
         });
     }
 }

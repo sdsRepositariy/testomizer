@@ -51,6 +51,7 @@ Route::group(['middleware'=>'auth'], function () {
     });
         
     Route::group(['prefix' => 'settings'], function () {
+        Route::resource('communities', 'Communities\CommunityController');
         Route::get('permissions/{role}', 'Roles\PermissionController@index');
         Route::post('permissions/{role}', 'Roles\PermissionController@save');
     });

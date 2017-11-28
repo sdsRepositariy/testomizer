@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Contracts\Users\UserFilter as UserFilter;
-use App\Services\Users\RoleUserFilter as RoleUserFilter;
 
 class AppServiceProvider extends ServiceProvider
 {

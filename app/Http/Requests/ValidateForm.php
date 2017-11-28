@@ -7,7 +7,7 @@ use App\Models\Users\UserGroup as UserGroup;
 use App\Models\Roles\Role as Role;
 use App\Models\Communities\Community as Community;
 
-class ValidateAdmin extends FormRequest
+class ValidateForm extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,13 +16,18 @@ class ValidateAdmin extends FormRequest
      */
     public function authorize()
     {
-        //Check permission for roles
+        //Check permittion to create a user with given role.
         $role = Role::findOrFail(\Request::input('role_id'))->role;
         if (\Gate::denies('create', 'user-'.$role)) {
             return false;
-        } else {
-            return true;
         }
+
+        //Check permittion to select a community.
+        if (\Gate::denies('create', 'community')) {
+            return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -48,7 +53,7 @@ class ValidateAdmin extends FormRequest
             'phone_number' => 'nullable|max:45|unique:users,phone_number,id'.$this->user()->id,
             'birthday' => 'nullable|date_format:"Y-m-d"',
             'community_id' => 'sometimes|required|exists:communities,id',
-            'role_id' => 'required|exists:roles,id',
+            'role_id' => 'sometimes|required|exists:roles,id',
             'level_id' => 'sometimes|required|exists:levels,id',
             'stream_id' => 'sometimes|required|exists:streams,id',
             'period_id' => 'sometimes|required|exists:periods,id',

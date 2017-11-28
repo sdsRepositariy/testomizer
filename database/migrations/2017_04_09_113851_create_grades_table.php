@@ -18,6 +18,7 @@ class CreateGradesTable extends Migration
             $table->integer('period_id')->unsigned();
             $table->integer('level_id')->unsigned();
             $table->integer('stream_id')->unsigned();
+            $table->integer('community_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -26,24 +26,6 @@ class UserController extends Controller
     use CreateCredentials;
 
     /**
-     * The usergroup
-     *
-     * @var string
-    */
-    protected $usergroup;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param App\Models\Users\UserGroup $usergroup
-     * @return void
-    */
-    public function __construct(Usergroup $usergroup)
-    {
-        $this->usergroup = $usergroup;
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -53,7 +35,7 @@ class UserController extends Controller
         if (\Gate::denies('create', 'user')) {
             abort(403);
         }
-
+ 
         //Get roles which correspondents to the user permissions
         $roles = array();
         foreach (Role::all() as $role) {
@@ -63,18 +45,17 @@ class UserController extends Controller
         };
        
         //Get community
+        $communities = '';
         if (\Gate::allows('create', 'community')) {
             $communities = Community::all();
-        } else {
-            $communities = Community::findOrFail(\Auth::user()->community_id);
         }
 
         //Get student instance
         $student = '';
-        if ($this->usergroup->group == 'parents') {
+        if (\Route::input('usergroup')->group == 'parents') {
             $student = User::findOrFail(\Request::input('student'));
         }
-
+ 
         return view('admin.users.create', [
             'user' => new User(),
             'communities' => $communities,
@@ -83,8 +64,8 @@ class UserController extends Controller
             'streams' => Stream::all(),
             'student' => $student,
             'periods' => Period::all(),
-            'usergroup' => $this->usergroup,
-            'slug' => 'usergroup/'.$this->usergroup->group.'/user',
+            'usergroup' => \Route::input('usergroup'),
+            'slug' => 'usergroup/'.\Route::input('usergroup')->group.'/user',
         ]);
     }
 
@@ -94,30 +75,18 @@ class UserController extends Controller
      * @param  App\Http\Requests\ValidateAdmin $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidateAdmin $request)
+    public function store(ValidateForm $request)
     {
         $input = $request->all();
      
-        //Add usergroup Id
-        $input['user_group_id'] = $this->usergroup->id;
+       //Change grades id to the value
+        //Create in the period model a function to parse date yyyy-yyyy
+        //replase by this function period filter code
+        //Change code in the view due to id replacment
+        //Change validation logic id->column name
+        //Put grade creation to the CompleteInput
+        //Create controller to handle upload
 
-        //Add community
-        if (\Gate::denies('create', 'community')) {
-            $input['community_id'] = \Auth::user()->community_id;
-        }
-
-        //Create and add a login
-        while (true) {
-            //createLogin(int $letterQty, int $digitQty)
-            $login = $this->createLogin(1, 5);
-            if (!User::withTrashed()->get()->contains('login', $login)) {
-                break;
-            }
-        }
-        $input['login'] = $login;
-
-        //Create and add a password createPassword(int $passLenght)
-        $input['password'] = $this->createPassword(2);
        
         //Store user data
         $user = User::create($input);
@@ -135,7 +104,7 @@ class UserController extends Controller
                 $grade = Grade::create($input);
             }
             
-            //Iinsert the record to the intermediate table.
+            //Insert the record to the intermediate table.
             $user->grades()->attach($grade->id);
         }
 

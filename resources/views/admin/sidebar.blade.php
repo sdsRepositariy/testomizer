@@ -18,11 +18,13 @@
   		<span class ="pull-right">Test lists</span>
   	</a>
   </div>
-  <a href="#" class="list-group-item">Account manager</a>
   <a href="#settings" data-toggle="collapse" class="list-group-item">Settings</a>
   <div id="settings" class="{{\Request::is('settings/permissions*') ? 'collapse in' : 'collapse'}}">
     <a href="{{ url('settings/permissions/superadmin') }}" class="list-group-item clearfix {{\Request::is('settings/permissions*') ? 'active' : ''}}">
       <span class ="pull-right">Permissions</span>
+    </a>
+    <a href="{{ url('settings/communities') }}" class="list-group-item clearfix {{\Request::is('settings/communities*') ? 'active' : ''}}">
+      <span class ="pull-right">Communities</span>
     </a>
     <a href="#" class="list-group-item clearfix">
       <span class ="pull-right">Email</span>
