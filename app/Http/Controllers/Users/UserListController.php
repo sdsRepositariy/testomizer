@@ -47,7 +47,7 @@ class UserListController extends Controller
     {
         //Get usergroup
         $userGroup = \Route::input('usergroup');
-
+        dd($userGroup);
         // Check if user can see resource
         if (\Gate::denies('view', 'user')) {
             abort(403);
@@ -63,15 +63,15 @@ class UserListController extends Controller
         } else {
             $query = User::where('user_group_id', $userGroup->id);
         }
-      
-        $query = $this->getFilter($query, $queryString);
+    
+        // $query = $this->getFilter($query, $queryString);
 
-        if (isset($queryString['search'])) {
-            //Flash search request to the session
-            $request->flashOnly('search');
-            //Call for handler
-            $query = $this->searchHandler($query, $queryString);
-        }
+        // if (isset($queryString['search'])) {
+        //     //Flash search request to the session
+        //     $request->flashOnly('search');
+        //     //Call for handler
+        //     $query = $this->searchHandler($query, $queryString);
+        // }
    
         $sort = $this->getSort($userGroup, $queryString);
 

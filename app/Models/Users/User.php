@@ -87,4 +87,48 @@ class User extends Authenticatable
     {
         return $this->hasOne(__CLASS__);
     }
+
+    /**
+     * Get students.
+     *
+     * @param string $sort
+     * @param string $order
+     * @param array $filters
+     * @param array $gradesId
+     * @param string $search
+     *
+     * @return array
+    */
+    public function getStudents($sort, $order, $filter, $gradesId, $search)
+    {
+        $userGroupId = \DB::table('user_groups')->where('group', 'students')->value('id');
+
+        $query = \DB::table('users')
+            ->join('grade_user', function ($join) use ($gradesId) {
+                $join->on('users.id', '=', 'grade_user.user_id')
+                ->whereIn('grade_user.grade_id', $gradesId);
+            });
+
+        $query->where('users.user_group_id', $userGroupId);
+
+        foreach ($filter as $key => $value) {
+            if (!empty($value)) {
+                if ($key == 'status' && $value == 'active') {
+                    $query->whereNull('users.deleted_at');
+                } else if ($key == 'status' && $value == 'deleted') {
+                    $query->whereNotNull('users.deleted_at');
+                } else {
+                    $query->where('users.'.$key.'_'.'id', $value);
+                }
+            }
+        }
+
+        if (!empty($search)) {
+            $query->where('users.last_name', 'like', $search.'%')->orWhere('users.email', 'like', $search.'%');
+        }
+
+        $query->orderBy($sort, $order);
+
+        return $query->paginate(10);
+    }
 }

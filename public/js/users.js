@@ -49,10 +49,7 @@ $(".sort a").on("click", function(event){
 	location.href = nextElement.attr('href');
 });
 
-//Call the modal for file upload
-$("#callupload").click(function(){
-	$("#upload").modal();
-});
+
 
 
 });

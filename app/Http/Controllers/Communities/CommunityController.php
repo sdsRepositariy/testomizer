@@ -4,37 +4,17 @@ namespace App\Http\Controllers\Communities;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\Community\CommunityRepository as CommunityRepository;
-use App\Services\Common\GetFilter as GetFilter;
+
 
 class CommunityController extends Controller
 {
-    /**
-     * The community repository implementation.
-     *
-     * @var CommunityRepository
-     */
-    protected $communities;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @param  CommunityRepository  $communities
-     *
-     * @return void
-     */
-    public function __construct(CommunityRepository $communities)
-    {
-        $this->communities = $communities;
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, GetFilter $getFilter)
+    public function index(Request $request)
     {
         // Check if user can see resource
         if (\Gate::denies('view', 'community')) {
@@ -44,26 +24,20 @@ class CommunityController extends Controller
         //Get query string
         $queryString = $request->query();
 
-        //Fiter parametrs
-        $namespace = 'App\Services\Communities\Filters\\';
-        $filterPath = '/Services/Communities/Filters/';
-
-        $queryParameters = $getFilter->filter($queryString, $namespace, $filterPath);
-
         // $list = $this->communities->getCommunityList($queryParameters);
-        dd($queryParameters);
+        dd($queryString);
         //Apply filters
-        $list = $getFilter->filter($query, $queryString, $this->filterable, 'App\Services\Communities\Filters')->paginate(5);
-        dd(\Request::session()->all());
-        return view('admin.communities.index', [
-            'list' => $list,
-            'slug' => 'settings/communities',
-            'countries' => Country::all(),
-            'regions' => Region::all(),
-            'cities' => City::all(),
-            'types' => Type::all(),
-            'session' => \Session::get($userGroup->group),
-        ]);
+        // $list = $getFilter->filter($query, $queryString, $this->filterable, 'App\Services\Communities\Filters')->paginate(5);
+        // dd(\Request::session()->all());
+        // return view('admin.communities.index', [
+        //     'list' => $list,
+        //     'slug' => 'settings/communities',
+        //     'countries' => Country::all(),
+        //     'regions' => Region::all(),
+        //     'cities' => City::all(),
+        //     'types' => Type::all(),
+        //     'session' => \Session::get($userGroup->group),
+        // ]);
     }
 
     /**

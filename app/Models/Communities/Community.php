@@ -5,6 +5,10 @@ namespace App\Models\Communities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Communities\City as City;
 use App\Models\Communities\CommunityType as CommunityType;
+use App\Models\Users\Grade as Grade;
+use App\Models\Users\Stream as Stream;
+use App\Models\Users\Level as Level;
+use App\Models\Users\Period as Period;
 
 class Community extends Model
 {
@@ -20,5 +24,29 @@ class Community extends Model
     public function communityType()
     {
         return $this->belongsTo(CommunityType::class);
+    }
+
+    //Get grades associated with the community.
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+    //Get streams associated with the community.
+    public function streams()
+    {
+        return $this->belongsToMany(Stream::class, 'grades');
+    }
+
+    //Get levels associated with the community.
+    public function levels()
+    {
+        return $this->belongsToMany(Level::class, 'grades');
+    }
+
+    //Get periods associated with the community.
+    public function periods()
+    {
+        return $this->belongsToMany(Period::class, 'grades');
     }
 }

@@ -43,11 +43,11 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 //
 Route::group(['middleware'=>'auth'], function () {
     
-    Route::group(['prefix' => 'usergroup/{usergroup}'], function () {
-        Route::get('user', 'Users\UserListController@index');
-        Route::post('user/{id}/restore', 'Users\DeleteController@restoreTrashed');
-        Route::post('user/{id}/harddelete', 'Users\DeleteController@hardDelete');
-        Route::resource('user', 'Users\UserController', ['except' => ['index']]);
+    Route::group(['prefix' => 'usergroup/students'], function () {
+        Route::get('list', 'Users\Students\UserListController@getList');
+        // Route::post('user/{id}/restore', 'Users\DeleteController@restoreTrashed');
+        // Route::post('user/{id}/harddelete', 'Users\DeleteController@hardDelete');
+        // Route::resource('user', 'Users\UserController', ['except' => ['index']]);
     });
         
     Route::group(['prefix' => 'settings'], function () {

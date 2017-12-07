@@ -7,16 +7,33 @@ use App\Models\Users\Grade as Grade;
 use Carbon\Carbon;
 
 class Period extends Model
-{
+{   
+    /**
+     * The first day of academic year.
+    */
+    protected $startDay = 1;
+
+    /**
+     * The first month of academic year.
+    */
+    protected $startMonth = 9;
+
     /**
      * Get academic year.
      *
      * @return string
     */
-    public function period()
+    public function getCurrentPeriodId()
     {
-        return Carbon::parse($this->year_start)
-            ->year."-".Carbon::parse($this->year_end)->year;
+        $now = Carbon::now('Europe/Kiev');
+
+        if ($now->month < $this->startMonth) {
+            $startYear = $now->year - 1;
+        } else {
+            $startYear = $now->year;
+        }
+        
+        return \DB::table('periods')->where('year_start', '=', Carbon::createFromDate($startYear, $this->startMonth, $this->startDay, 'Europe/Kiev')->toDateString())->value('id');
     }
     
     /**------------Model relationships------------*/
