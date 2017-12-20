@@ -9,6 +9,7 @@ use App\Models\Users\Grade as Grade;
 use App\Models\Users\Stream as Stream;
 use App\Models\Users\Level as Level;
 use App\Models\Users\Period as Period;
+use App\Models\Users\User as User;
 
 class Community extends Model
 {
@@ -48,5 +49,11 @@ class Community extends Model
     public function periods()
     {
         return $this->belongsToMany(Period::class, 'grades');
+    }
+
+    //Get the users for the community.
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

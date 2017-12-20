@@ -13,18 +13,9 @@ use App\Models\Users\Grade as Grade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateAdmin as ValidateAdmin;
-use App\Traits\CreateCredentials;
 
 class UserController extends Controller
 {
-    /*
-    |The controller uses a trait
-    |to generate login and password.
-    |
-    */
-
-    use CreateCredentials;
-
     /**
      * Show the form for creating a new resource.
      *

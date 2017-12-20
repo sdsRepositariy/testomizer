@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\Roles\Role as Role;
+use App\Models\Users\Grade as Grade;
 use App\Models\Communities\Community as Community;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -82,7 +83,7 @@ class User extends Authenticatable
 
     /**
      * Get the parent of a student.
-     */
+    */
     public function parent()
     {
         return $this->hasOne(__CLASS__);
@@ -107,7 +108,11 @@ class User extends Authenticatable
             ->join('grade_user', function ($join) use ($gradesId) {
                 $join->on('users.id', '=', 'grade_user.user_id')
                 ->whereIn('grade_user.grade_id', $gradesId);
-            });
+            })
+            ->join('grades', 'grade_user.grade_id', '=', 'grades.id')
+            ->join('levels', 'grades.level_id', '=', 'levels.id')
+            ->join('streams', 'grades.stream_id', '=', 'streams.id')
+            ->select('levels.number as level', 'users.*', 'streams.name as stream');
 
         $query->where('users.user_group_id', $userGroupId);
 
@@ -129,6 +134,6 @@ class User extends Authenticatable
 
         $query->orderBy($sort, $order);
 
-        return $query->paginate(10);
+        return $query->paginate(7);
     }
 }

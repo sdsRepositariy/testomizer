@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::bind('user', function ($value) {
-            return User::where('id', $value)->firstOrFail();
+            return User::withTrashed()->where('id', $value)->firstOrFail();
         });
         
         parent::boot();

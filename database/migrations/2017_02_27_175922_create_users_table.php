@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
             $table->rememberToken()->nullable();
             $table->timestamps();
+            $table->timestamp('pass_start_date')->nullable();
         });
     }
 

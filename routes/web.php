@@ -45,9 +45,12 @@ Route::group(['middleware'=>'auth'], function () {
     
     Route::group(['prefix' => 'usergroup/students'], function () {
         Route::get('list', 'Users\Students\UserListController@getList');
-        // Route::post('user/{id}/restore', 'Users\DeleteController@restoreTrashed');
-        // Route::post('user/{id}/harddelete', 'Users\DeleteController@hardDelete');
-        // Route::resource('user', 'Users\UserController', ['except' => ['index']]);
+        Route::post('user/{user}/restore', 'Users\Students\DeleteController@restoreTrashed');
+        Route::post('user/{user}/harddelete', 'Users\Students\DeleteController@hardDelete');
+        Route::get('user/{user}/changepassword', 'Users\Students\UserController@changePassword');
+        Route::resource('user', 'Users\Students\UserController', ['except' => ['index']]);
+        Route::get('upload', 'Users\Students\UploadUserListController@upload');
+        Route::post('upload', 'Users\Students\UploadUserListController@store');
     });
         
     Route::group(['prefix' => 'settings'], function () {

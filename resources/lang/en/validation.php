@@ -114,6 +114,17 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+            'first_name' => 'first name',
+            'middle_name' => 'middle name',
+            'last_name' => 'last name',
+            'user_id' => 'parent',
+            'phone_number' => 'phone number',
+            'community_id' => 'community',
+            'role_id' => 'role',
+            'level_id' => 'level',
+            'stream_id' => 'stream',
+            'period_id' => 'period',
+    ],
 
 ];

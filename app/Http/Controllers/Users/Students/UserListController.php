@@ -20,7 +20,7 @@ class UserListController extends Controller
      *
      * @var array
      */
-    protected $sortable = ['first_name', 'last_name', 'created_at'];
+    protected $sortable = ['level', 'stream', 'last_name'];
 
     /**
      * The sort orders.
@@ -53,7 +53,7 @@ class UserListController extends Controller
 
         //Get query string
         $queryString = $request->query();
-       
+
         //Sort
         if (isset($queryString['sort']) && in_array($queryString['sort'], $this->sortable, true)) {
             $sort = $queryString['sort'];
@@ -72,7 +72,7 @@ class UserListController extends Controller
         $filterUser = array();
         $filterGrade = array();
 
-        if (isset($queryString['community']) && \Gate::allows('create', 'user')) {
+        if (isset($queryString['community']) && \Gate::allows('create', 'community')) {
             $filterUser['community'] = $queryString['community'];
         } else {
             $filterUser['community'] = \Auth::user()->community_id;
@@ -118,17 +118,37 @@ class UserListController extends Controller
         $user = new User();
         $list = $user->getStudents($sort, $order, $filterUser, $gradesId, $search);
         
-        //Make query string for sorting
-        $path = 'usergroup/students';
+        // Build query string for sorting.
+        $queryString = '?';
 
-        $url = url($path, 'list').'?';
-
-        $url .= http_build_query(array_merge($filterGrade, $filterUser));
-
-        $url .= '&sort='.$sort.'&order='.$order;
+        // We need query part with filters without sort to handle sorting
+        $queryString .= http_build_query(array_merge($filterGrade, $filterUser));
 
         if (!empty($search)) {
-            $url .= '&search='.$search;
+            $queryString .= '&search='.$search;
+        }
+
+        //Build url with query string
+        $path = 'usergroup/students';
+
+        $url = url($path, 'list');
+
+        $url .= $queryString.'&'.http_build_query(['sort' => $sort, 'order' => $order]);
+
+        $list->setPath($url);
+
+        //Store some data in the session for further use
+        session([
+            'user_list' => $url.'&page='.$list->currentPage(),
+            'filter_community' => $filterUser['community'],
+            'filter_grade' => $filterGrade
+        ]);
+
+        //Inverse sort order to make a loop for sorting
+        if ($order == 'asc') {
+            $order = 'desc';
+        } else {
+            $order = 'asc';
         }
 
         //Levels, streams, periods should be related to certain community
@@ -136,24 +156,27 @@ class UserListController extends Controller
 
         //The community may have diferent quantity of levels and streams
         //depending on a period. So to get right lists of levels and
-        //streams we need to select it for certain period and get unique lists.
-        $streams = $selectedCommunity->streams()->where('period_id', $filterGrade['period'])->get()->unique('id');
+        //streams we need to select it for certain period and select items
+        //with unique id's.
+        $streams = $selectedCommunity->streams()->where('period_id', $filterGrade['period'])->orderBy('name', 'asc')->get()->unique('id');
 
-        $levels = $selectedCommunity->levels()->where('period_id', $filterGrade['period'])->get()->unique('id');
+        $levels = $selectedCommunity->levels()->where('period_id', $filterGrade['period'])->orderBy('number', 'asc')->get()->unique('id');
 
         $periods = $selectedCommunity->periods()->get()->unique('id');
 
         return view('admin.users.students.index', [
             'list' => $list,
-            'url' => $url,
+            'queryString' => $queryString,
             'path' => $path,
             'communities' => Community::all(),
-            'communityDefault' => \Auth::user()->community_id,
+            'grades' => Grade::find($filterGrade['period']),
             'levels' => $levels,
             'streams' => $streams,
             'periods' => $periods,
             'filterGrade' => $filterGrade,
             'filterUser' => $filterUser,
+            'sort' => $sort,
+            'order' => $order,
         ]);
     }
 }

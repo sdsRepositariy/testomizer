@@ -1,15 +1,18 @@
 /*--------------Table links---------*/
+.sort {
+	min-width: 70px;
+}
 .arrow-size{
 	font-size: 16px;
 }
-a.sort-link, a.table-link{
+a.sort-link{
 	color: #636b6f;
 	text-decoration: none;
 }
 a[href="#"].sort-link{
     color: #e6e6e6;
 }
-a.sort-link:hover, a.table-link:hover{
+a.sort-link:hover{
 	color: #2E2E34;
 }
 a[href="#"].sort-link:hover{
@@ -30,6 +33,11 @@ a[href="#"].sort-link:hover{
 }
 .filter-block label{
 	width: 100%;
+}
+
+/*------Input fields--------*/
+.required-mark {
+	color: #f00;
 }
 
 

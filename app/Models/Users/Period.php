@@ -35,6 +35,18 @@ class Period extends Model
         
         return \DB::table('periods')->where('year_start', '=', Carbon::createFromDate($startYear, $this->startMonth, $this->startDay, 'Europe/Kiev')->toDateString())->value('id');
     }
+
+    /**
+     * Extract from date year only.
+     *
+     * @return string
+    */
+    public function getPeriod()
+    {
+        $date_start = Carbon::parse($this->year_start);
+        $date_end = Carbon::parse($this->year_end);
+        return $date_start->year."-".$date_end->year;
+    }
     
     /**------------Model relationships------------*/
 

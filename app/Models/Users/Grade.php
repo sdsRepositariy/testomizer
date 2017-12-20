@@ -15,7 +15,7 @@ class Grade extends Model
      *
      * @var array
      */
-    protected $fillable = ['level_id', 'stream_id', 'period_id'];
+    protected $fillable = ['level_id', 'stream_id', 'period_id', 'community_id'];
 
     /**------------Model relationships------------*/
 
