@@ -51,6 +51,7 @@ Route::group(['middleware'=>'auth'], function () {
         Route::resource('user', 'Users\Students\UserController', ['except' => ['index']]);
         Route::get('upload', 'Users\Students\UploadUserListController@upload');
         Route::post('upload', 'Users\Students\UploadUserListController@store');
+        Route::get('download', 'Users\Students\DownloadUserListController@download');
     });
         
     Route::group(['prefix' => 'settings'], function () {

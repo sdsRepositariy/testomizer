@@ -13,17 +13,9 @@ use App\Models\Users\Grade as Grade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateStudentForm as ValidateStudentForm;
-use App\Traits\CreateCredentials as CreateCredentials;
 
 class UserController extends Controller
 {
-    /*
-    | The controller uses a trait to generate users login and password.
-    |
-    */
-
-    use CreateCredentials;
-
     /**
      * Show the form for creating a new resource.
      *
@@ -84,8 +76,8 @@ class UserController extends Controller
         $input = $request->all();
 
         //Complete missed data
-        $input['login'] = $this->createLogin($input['community_id']);
-        $input['password'] = $this->createPassword(6);
+        $input['login'] = $input['community_id'].'_'.str_slug($input['last_name']);
+        $input['password'] = str_random(6);
         $input['role_id'] = Role::where('role', 'respondent')->first()->id;
         $input['user_group_id'] = Usergroup::where('group', 'students')->first()->id;
 
@@ -322,7 +314,7 @@ class UserController extends Controller
             return false;
         }
 
-        $user->password = $this->createPassword(6);
+        $user->password = str_random(6);
 
         $user->save();
 

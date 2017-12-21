@@ -13,18 +13,10 @@ use App\Models\Users\Grade as Grade;
 use App\Models\Users\UserGroup as Usergroup;
 use App\Models\Communities\Community as Community;
 use App\Http\Requests\ValidateStudentFile as ValidateStudentFile;
-use App\Traits\CreateCredentials as CreateCredentials;
 use Carbon\Carbon;
 
 class UploadUserListController extends Controller
 {
-    /*
-    | The controller uses a trait to generate users login and password.
-    |
-    */
-
-    use CreateCredentials;
-
     /**
      * Show the form for upload.
      *
@@ -51,18 +43,11 @@ class UploadUserListController extends Controller
             $filter['community'] = \Auth::user()->community_id;
         }
 
-        //Get url of the user list
-        if (session('user_list') == null) {
-            $urlUserList = url('usergroup/students', 'list');
-        } else {
-            $urlUserList = session('user_list');
-        }
-
         return view('admin.users.students.upload', [
             'filter' => $filter,
             'periods' => Period::all(),
             'path' => 'usergroup/students',
-            'urlUserList' => $urlUserList,
+            'urlUserList' => url('usergroup/students', 'list'),
             'communities' => Community::all(),
         ]);
     }
@@ -79,7 +64,7 @@ class UploadUserListController extends Controller
 
         $community_id = $request->input('community_id');
 
-        $path = $request->file('file_students')->store($request->user()->id.'/users');
+        $path = $request->file('file_students')->store('users/'.$request->user()->id);
 
         $reader = \Excel::selectSheetsByIndex(0)->load('storage/app/'.$path);
 
@@ -101,8 +86,8 @@ class UploadUserListController extends Controller
             $row['stream_id'] = Stream::where('name', strtoupper($row['stream']))->first()->id;
             $row['period_id'] = $period_id;
             $row['community_id'] = $community_id;
-            $row['login'] = $this->createLogin($community_id);
-            $row['password'] = $this->createPassword(6);
+            $row['login'] = $community_id.'_'.str_slug($row['last_name']);
+            $row['password'] = str_random(6);
             $row['role_id'] = Role::where('role', 'respondent')->first()->id;
             $row['user_group_id'] = Usergroup::where('group', 'students')->first()->id;
             $row['birthday'] = Carbon::parse($row['birthday'])->toDateString();

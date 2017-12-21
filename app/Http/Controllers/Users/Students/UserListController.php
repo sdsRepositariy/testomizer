@@ -99,8 +99,12 @@ class UserListController extends Controller
         if (isset($queryString['period'])) {
             $filterGrade['period'] = $queryString['period'];
         } else {
-            $period = new Period();
-            $filterGrade['period'] = $period->getCurrentPeriodId();
+            $lastPeriod = Community::find(($filterUser['community']))->periods()->get()->last();
+            if ($lastPeriod != null) {
+                $filterGrade['period'] = $lastPeriod->id;
+            } else {
+                $filterGrade['period'] = null;
+            }
         }
 
         //Search
@@ -116,7 +120,7 @@ class UserListController extends Controller
 
         //Get user list
         $user = new User();
-        $list = $user->getStudents($sort, $order, $filterUser, $gradesId, $search);
+        $list = $user->getStudents($sort, $order, $filterUser, $gradesId, $search)->paginate(7);
         
         // Build query string for sorting.
         $queryString = '?';
@@ -128,12 +132,15 @@ class UserListController extends Controller
             $queryString .= '&search='.$search;
         }
 
+        // Query with sort
+        $queryStringWithSort = $queryString.'&'.http_build_query(['sort' => $sort, 'order' => $order]);
+
         //Build url with query string
         $path = 'usergroup/students';
 
         $url = url($path, 'list');
 
-        $url .= $queryString.'&'.http_build_query(['sort' => $sort, 'order' => $order]);
+        $url .= $queryStringWithSort;
 
         $list->setPath($url);
 
@@ -167,6 +174,7 @@ class UserListController extends Controller
         return view('admin.users.students.index', [
             'list' => $list,
             'queryString' => $queryString,
+            'queryStringWithSort' => $queryStringWithSort,
             'path' => $path,
             'communities' => Community::all(),
             'grades' => Grade::find($filterGrade['period']),

@@ -14,11 +14,15 @@ class StreamsTableSeeder extends Seeder
     {
         DB::table('streams')->insert([
             [
-                'name' => 'a',
+                'name' => 'А',
                 'created_at' => Carbon::now(),
             ],
             [
-                'name' => 'b',
+                'name' => 'Б',
+                'created_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'В',
                 'created_at' => Carbon::now(),
             ],
         ]);

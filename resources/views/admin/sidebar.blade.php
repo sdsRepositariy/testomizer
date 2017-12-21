@@ -1,7 +1,7 @@
 <div class="list-group">
 
   <a href="#users" data-toggle="collapse" class="list-group-item">User manager</a>
-  <div id="users" class="{{\Request::is('*usergroup/*user*') ? 'collapse in' : 'collapse'}}">
+  <div id="users" class="{{\Request::is('*usergroup*') ? 'collapse in' : 'collapse'}}">
     @foreach(App\Models\Users\UserGroup::all() as $usergroup)
     <a href="{{ url('usergroup/'.$usergroup->group.'/list') }}" class="list-group-item clearfix {{\Request::is('*'.$usergroup->group.'*') ? 'active' : ''}}">
       <span class ="text-capitalize pull-right">{{ $usergroup->group }}</span>

@@ -98,7 +98,7 @@ class User extends Authenticatable
      * @param array $gradesId
      * @param string $search
      *
-     * @return array
+     * @return Illuminate\Database\Query\Builder
     */
     public function getStudents($sort, $order, $filter, $gradesId, $search)
     {
@@ -134,6 +134,6 @@ class User extends Authenticatable
 
         $query->orderBy($sort, $order);
 
-        return $query->paginate(7);
+        return $query;
     }
 }

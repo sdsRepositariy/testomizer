@@ -23,6 +23,8 @@ class ValidateStudentFile extends FormRequest
         if (\Gate::denies('create', 'community')) {
             return \Request::input('community_id') == \Auth::user()->community_id;
         }
+
+        return true;
     }
 
     /**

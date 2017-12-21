@@ -53,6 +53,10 @@ class LevelsTableSeeder extends Seeder
                 'number' => 10,
                 'created_at' => Carbon::now(),
             ],
+            [
+                'number' => 11,
+                'created_at' => Carbon::now(),
+            ],
         ]);
     }
 }

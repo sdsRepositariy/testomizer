@@ -13,6 +13,14 @@
                 {{ \Session::get('flash_message') }}
             </div>
             @endif 
+            @if ( $errors->has('download_error') )
+                <div class="alert alert-danger alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    @foreach ($errors->all() as $message)
+                        {{ $message }}
+                    @endforeach  
+                </div>
+            @endif 
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <div class="row">
@@ -37,30 +45,9 @@
                         
                         <div class="col-xs-12 col-sm-4">
                             <div class="text-right header-button">
-                                <button type="button" class="btn btn-default" id="callupload" data-toggle="tooltip" title="Upload users from xls">
+                                <a class="btn btn-default" href="{{ url($path, 'download').$queryStringWithSort }}" title="@lang('admin/users.download_students')">
                                     <span class="glyphicon glyphicon-export icon-plus"></span>
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="upload" tabindex="-1">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                                                <h4 class="modal-title text-left">Select file for upload</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="upload.php" method="post" enctype="multipart/form-data">
-                                                    <input type="file" name="fileToUpload" id="fileToUpload">
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Upload</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                </a>
                                 @if(\Gate::allows('create', 'user'))
                                 <a class="btn btn-default" href="{{ url($path, 'upload') }}" title="@lang('admin/users.upload_students')">
                                     <span class="glyphicon glyphicon-import icon-plus"></span>
@@ -169,6 +156,17 @@ $('.searchbar button').click(function() {
     var input = $('input[name="search"]').val();
     window.location = "{!! url($path, 'list').$queryString !!}"+'&search='+input;
 });
+
+//Activate modal
+$('#calldownload').click(function() {
+    $('#download').modal('show')
+});
+
+//Submit file name for dowload
+$('#submit_download').click(function() {
+    $('#download form').submit();
+});
+
 
 });
 })(jQuery);   
