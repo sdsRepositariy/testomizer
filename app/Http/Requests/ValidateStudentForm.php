@@ -39,7 +39,7 @@ class ValidateStudentForm extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules =  [
             'first_name' => [
                     'required',
                     "regex:/^[\pL\pM\pPd]+$/u",
@@ -55,14 +55,22 @@ class ValidateStudentForm extends FormRequest
                     "regex:/^[\pL\pM\pPd]+$/u",
                     'max:255',
             ],
-            'email' => 'nullable|email|max:255|unique:users,email,id'.$this->user()->id,
-            'phone_number' => 'nullable|max:45|unique:users,phone_number,id'.$this->user()->id,
             'birthday' => 'required|date_format:"Y-m-d"',
             'community_id' => 'required|exists:communities,id',
             'level_id' => 'required|exists:levels,id',
             'stream_id' => 'required|exists:streams,id',
             'period_id' => 'required|exists:periods,id',
         ];
+
+        if ($this->route()->user) {
+            $rules['email'] = 'nullable|email|max:255|unique:users,email,'.$this->route()->user->id;
+            $rules['phone_number'] = 'nullable|string|max:45|unique:users,phone_number,'.$this->route()->user->id;
+        } else {
+            $rules['email'] = 'nullable|email|max:255|unique:users,email';
+            $rules['phone_number'] = 'nullable|string|max:45|unique:users,phone_number';
+        }
+
+        return $rules;
     }
 
     /**

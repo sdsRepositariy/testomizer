@@ -26,10 +26,10 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
                             <h4>
-                               @lang('admin/users.students_list')
+                               @lang('admin/users.parents_list')
                             </h4>
                         </div>
-                        <div class="col-xs-12 col-sm-4">                     
+                        <div class="col-xs-9 col-sm-4">    
                             <div class="input-group searchbar text-right">
                                 <input type="text" class="form-control" name="search" placeholder="@lang('admin/users.search_placeholder')" value="{{ old('search') }}">
                                 <span class="input-group-btn">
@@ -39,19 +39,11 @@
                             </div>
                         </div>
                         
-                        <div class="col-xs-12 col-sm-4">
+                        <div class="col-xs-3 col-sm-4">
                             <div class="text-right header-button">
                                 <a class="btn btn-default" href="{{ url($path, 'download').$queryStringWithSort }}" title="@lang('admin/users.download')">
                                     <span class="glyphicon glyphicon-export icon-plus"></span>
                                 </a>
-                                @if(\Gate::allows('create', 'user'))
-                                <a class="btn btn-default" href="{{ url($path, 'upload') }}" title="@lang('admin/users.upload_students')">
-                                    <span class="glyphicon glyphicon-import icon-plus"></span>
-                                </a>
-                                <a class="btn btn-default" href="{{ url($path.'/user', 'create') }} " title="@lang('admin/users.add_user')">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </a>
-                                @endif  
                             </div>               
                         </div>
                     </div>
@@ -59,10 +51,10 @@
                     <div class="row filter-block">
                         <form id="user-filters" action="{{ url($path, 'list') }}" method="GET">
                             @if(\Gate::allows('create', 'community'))
-                            <div class="col-xs-12">
+                            <div class="col-xs-12 col-lg-2">
                                 <h4>@lang('admin/users.filters')</h4>
                             </div>
-                            <div class="col-xs-12 col-md-4">
+                            <div class="col-xs-12 col-md-5 col-lg-4">
                                 <div>@lang('admin/users.community')</div> 
                                 <select name="community" class="form-control">
                                     @foreach ($communities as $community)
@@ -74,9 +66,9 @@
                                     @endforeach                         
                                 </select>
                             </div>
-                            <div class="col-xs-12 col-md-2">
+                            <div class="col-xs-12 col-md-3 col-lg-2">
                             @else
-                            <div class="col-xs-12 col-md-3">
+                            <div class="col-xs-12 col-md-5">
                                 <h4>@lang('admin/users.filters')</h4>
                             </div>
                             <div class="col-xs-12 col-md-3">                 
@@ -89,14 +81,7 @@
                                     </option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="col-xs-12 col-md-2">
-                                <div>@lang('admin/users.status')</div>
-                                <select name="status" class="form-control">
-                                    <option {{ $filterUser["status"]=="active" ? "selected" : "" }} value="active">@lang('admin/users.active')</option>
-                                    <option {{ $filterUser["status"]=="deleted" ? "selected" : "" }} value="deleted">@lang('admin/users.deleted')</option> 
-                                </select>
-                            </div>                     
+                            </div>                    
                             <div class="col-xs-12 col-md-2">
                                 <div>@lang('admin/users.level')</div>
                                 <select name="level" class="form-control">
@@ -124,7 +109,7 @@
                 </div>
                 
                 <div class="table-responsive">
-                    @include('admin.users.students.table')
+                    @include('admin.users.parents.table')
                </div>
             </div>
 

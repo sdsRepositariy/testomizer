@@ -53,6 +53,28 @@ Route::group(['middleware'=>'auth'], function () {
         Route::post('upload', 'Users\Students\UploadUserListController@store');
         Route::get('download', 'Users\Students\DownloadUserListController@download');
     });
+
+     Route::group(['prefix' => 'usergroup/parents'], function () {
+        Route::get('list', 'Users\Parents\UserListController@getList');
+        Route::get('user/{user}/changepassword', 'Users\Parents\UserController@changePassword');
+        Route::get('user/{user}', 'Users\Parents\UserController@show');
+        Route::get('user/{user}/edit', 'Users\Parents\UserController@edit');
+        Route::get('user/create/student/{user}', 'Users\Parents\UserController@create');
+        Route::post('user', 'Users\Parents\UserController@store');
+        Route::put('user/{user}', 'Users\Parents\UserController@update');
+        Route::get('download', 'Users\Parents\DownloadUserListController@download');
+    });
+
+    Route::group(['prefix' => 'usergroup/teachers'], function () {
+        Route::get('list', 'Users\Teachers\UserListController@getList');
+        // Route::get('user/{user}/changepassword', 'Users\Parents\UserController@changePassword');
+        // Route::get('user/{user}', 'Users\Parents\UserController@show');
+        // Route::get('user/{user}/edit', 'Users\Parents\UserController@edit');
+        // Route::get('user/create/student/{user}', 'Users\Parents\UserController@create');
+        // Route::post('user', 'Users\Parents\UserController@store');
+        // Route::put('user/{user}', 'Users\Parents\UserController@update');
+        // Route::get('download', 'Users\Parents\DownloadUserListController@download');
+    });
         
     Route::group(['prefix' => 'settings'], function () {
         Route::resource('communities', 'Communities\CommunityController');

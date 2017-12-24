@@ -160,8 +160,8 @@ class UploadUserListController extends Controller
                 ],
                 'level' => 'required|exists:levels,number',
                 'stream' => 'required|exists:streams,name',
-                'email' => 'nullable|email|max:255|unique',
-                'phone_number' => 'nullable|max:45|unique',
+                'email' => 'nullable|email|max:255|unique:users,email',
+                'phone_number' => 'nullable|string|max:45|unique:users,phone_number',
                 'birthday' => 'required|date_format:"d.m.Y"',
             ]);
 

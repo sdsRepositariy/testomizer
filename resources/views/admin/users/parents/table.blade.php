@@ -1,7 +1,11 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>No</th>
+            <th rowspan="2">No</th>
+            <th colspan="3" class="text-center">@lang('admin/users.student')</th>
+            <th colspan="3" class="text-center">@lang('admin/users.parent')</th>
+        </tr>
+        <tr>
             <th class="sort">             
                 @if($sort == 'level')
                 <a href="{{ url($path, 'list').$queryString.'&sort=level&order='.$order }}" class='sort-link {{ "order-".$order }}'>
@@ -25,6 +29,19 @@
                 <a href="{{ url($path, 'list').$queryString.'&sort=stream&order='.$order }}">
                     <span>@lang('admin/users.stream')</span>
                     <span class="glyphicon glyphicon glyphicon-sort arrow-size"></span>
+                    </div>
+                @endif
+            </th>
+            <th class="sort">
+                @if($sort == 'student_last_name')
+                <a href="{{ url($path, 'list').$queryString.'&sort=student_last_name&order='.$order }}" class='sort-link {{ "order-".$order }}'>
+                    <span>@lang('admin/users.name')</span>
+                    <span class="glyphicon glyphicon glyphicon-sort arrow-size"></span>
+                </a>
+                @else
+                <a href="{{ url($path, 'list').$queryString.'&sort=student_last_name&order='.$order }}">
+                    <span>@lang('admin/users.name')</span>
+                    <span class="glyphicon spanphicon glyphicon-sort arrow-size"></span>
                 </a>
                 @endif
             </th>
@@ -41,8 +58,7 @@
                 </a>
                 @endif
             </th>
-            <th>@lang('admin/users.status')</th>
-            <th colspan="2">@lang('admin/users.action')</th>
+            <th>@lang('admin/users.action')</th>
         </tr>
     </thead>
     <tbody>
@@ -51,47 +67,20 @@
                 <td>{{ (($list->currentPage() - 1 ) * $list->perPage() ) + $loop->iteration }}</td>
                 <td>{{ $user->level }}</td>
                 <td>{{ $user->stream }}</td>
+                <td>{{ $user->student_last_name }}&nbsp;{{ $user->student_first_name }}&nbsp;{{ $user->student_middle_name }}</td>
                 <td>{{ $user->last_name }}&nbsp;{{ $user->first_name }}&nbsp;{{ $user->middle_name }}</td>
                 <td>
-                @if ( $user->deleted_at == null )
-                    <span class="text-success glyphicon glyphicon-ok"></span>
-                @else
-                    <span class="text-danger glyphicon glyphicon-trash"></span>
-                @endif
-                </td>
-                <td>
-                @if ( $user->deleted_at == null )
+                    @if($user->id)
                     <a class="btn btn-info btn-xs" href="{{ url($path.'/user', $user->id) }}" data-toggle="tooltip" title="@lang('admin/users.view')">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
-                @else
-                    <form method="POST" action="{{ url($path.'/user/'.$user->id.'/restore') }}">
-                    {{ csrf_field() }}
-                        <button type="submit" class="btn btn-success btn-xs" data-toggle="tooltip" title="@lang('admin/users.restore')">
-                            <span class="glyphicon glyphicon-refresh"></span>
-                        </button>
-                    </form>
-                @endif
-                </td>
-                <td>
-                @if ( $user->deleted_at == null )
-                    <form method="POST" action="{{ url($path.'/user', $user->id) }}">
-                    {{ method_field('DELETE') }}
-                @else
-                    <form method="POST" action="{{ url($path.'/user/'.$user->id.'/harddelete') }}">
-                @endif
-                    {{ csrf_field() }}
-
-                @if (\Gate::allows('delete', 'user'))
-                    <button type="submit" class="btn btn-danger btn-xs" data-toggle="tooltip" title="@lang('admin/users.delete')">
-                    @if ( $user->deleted_at == null )
-                        <span class="glyphicon glyphicon-trash"></span>
                     @else
-                        <span class="glyphicon glyphicon-remove"></span>
+                        @if(\Gate::allows('create', 'user'))
+                        <a class="btn btn-default btn-xs" href="{{url($path.'/user/create/student', $user->student_id) }}" data-toggle="tooltip" title="@lang('admin/users.create_account')">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                        @endif
                     @endif
-                    </button>
-                @endif
-                    </form> 
                 </td>
             </tr>
         @endforeach

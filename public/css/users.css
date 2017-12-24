@@ -1,7 +1,9 @@
-/*--------------Table links---------*/
-.sort {
-	min-width: 70px;
+/*--------------Parent table--------*/
+#app .parent-heading {
+    background-color: #f5f5f5;
 }
+
+/*--------------Table links---------*/
 .arrow-size{
 	font-size: 16px;
 }
@@ -17,6 +19,14 @@ a.sort-link:hover{
 }
 a[href="#"].sort-link:hover{
 	color: #adadad;
+}
+
+/*----------Table-----------*/
+#app table th {
+    border: 1px solid #ddd;
+}
+#app table td, .sort {
+    white-space: nowrap;
 }
 
 /*-------------Filters----------*/

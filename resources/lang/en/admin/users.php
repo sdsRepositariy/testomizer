@@ -12,14 +12,15 @@ return [
     */
 
     'students_list' => 'Students list',
+    'parents_list' => 'Parents list',
+    'student' => 'Student',
+    'parent' => 'Parent',
     'search_placeholder' => 'Search for...',
     'upload_students' => 'Upload students list from xls',
-    'download_students' => 'Download students list to xls',
+    'download' => 'Download list to xls',
     'select_file_upload' => 'Select file for upload',
     'enter_file_name' => 'Enter file name',
     'close' => 'Close',
-    'upload' => 'Upload',
-    'download' => 'Download',
     'add_user' => 'Add new user',
     'edit_user' => 'Edit user',
     'view_user' => 'View user',
@@ -35,6 +36,7 @@ return [
     'stream' => 'Stream',
     'period' => 'Period',
 
+    'student_name' => 'Student name: ',
     'last_name' => 'Last name',
     'first_name' => 'First name',
     'middle_name' => 'Middle name',
@@ -49,6 +51,7 @@ return [
     'password' => 'Password',
     'fill_user_data' => 'Fill up user data',
     'edit_account' => 'Edit account',
+    'create_account' => 'Create account',
     'change_password' => 'Change password',
     'exit' => 'Exit',
     'email' => 'Email',
@@ -68,7 +71,7 @@ return [
     'user_exists' => 'The user with given name, family and birthday already exists!',
     'students_exist'    => 'Students exist in the chosen period!',
     'absent_grade' => 'Selected grade was not created for given period!',
-    'download_failed' => 'Download have been failed!',
+    'download_failed' => 'Download has been failed!',
 
     'row' => 'Error in the row: ',
 
