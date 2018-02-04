@@ -26,7 +26,7 @@
           <div class='row'>
             <div class="col-xs-12 col-sm-6">
               <h4>
-                @lang('admin/users.upload_students')
+                @lang('admin/users.upload_teachers')
               </h4>
             </div>
             <div class="col-sm-2 col-sm-offset-4 hidden-xs">
@@ -37,8 +37,8 @@
         <div class="panel-body">
           <div class="row">
             <div class="col-md-offset-2 col-md-9 col-lg-8">
-              <p class="text-warning text-justify">@lang('admin/users.attention_students')</p>
-              <p><img id="sheet" src="<?php echo asset("img/students_sheet.jpg")?>" alt="sheet" class="img-responsive"></p>
+              <p class="text-warning text-justify">@lang('admin/users.attention_teachers')</p>
+              <p><img id="sheet" src="<?php echo asset("img/teachers_sheet.jpg")?>" alt="sheet" class="img-responsive"></p>
             </div>
           </div>
           <form action="{{ url($path, 'upload') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -67,26 +67,13 @@
               <input type="hidden" name="community_id" value="{{ $filter['community'] }}">
             @endif
 
-            <div class="form-group">
-              <label for="period_id" class="col-md-3 control-label">@lang('admin/users.period')</label>
+            <div class="form-group {{ $errors->has('file_teachers') ? ' has-error' : '' }}">
+              <label for="file_teachers" class="col-md-3 control-label">@lang('admin/users.select_file_upload')</label>
               <div class="col-md-8 col-lg-6">
-                <select id="period_id" name="period_id" class="form-control">
-                  @foreach ($periods as $period)
-                  <option {{ old("period_id", $filter["period"])==$period->id ? "selected" : "" }} value="{{ $period->id }}">
-                  {{ $period->getPeriod() }}
-                  </option>
-                  @endforeach
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group {{ $errors->has('file_students') ? ' has-error' : '' }}">
-              <label for="file_students" class="col-md-3 control-label">@lang('admin/users.select_file_upload')</label>
-              <div class="col-md-8 col-lg-6">
-                <input id="file_students" type="file" name="file_students">
-                @if ($errors->has('file_students'))
+                <input id="file_teachers" type="file" name="file_teachers">
+                @if ($errors->has('file_teachers'))
                 <span class="help-block">
-                  <strong>{{ $errors->first('file_students') }}</strong>
+                  <strong>{{ $errors->first('file_teachers') }}</strong>
                 </span>
                 @endif
               </div>

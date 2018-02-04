@@ -3,6 +3,7 @@
 namespace App\Models\Roles;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Roles\Object as Object;
 
 class Permission extends Model
 {

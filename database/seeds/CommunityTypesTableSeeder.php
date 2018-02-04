@@ -13,8 +13,18 @@ class CommunityTypesTableSeeder extends Seeder
     public function run()
     {
         DB::table('community_types')->insert([
-            'name' => 'school',
-            'created_at' => Carbon::now(),
+            [
+                'name' => 'школа',
+                'created_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'гімназія',
+                'created_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'ліцей',
+                'created_at' => Carbon::now(),
+            ],
         ]);
     }
 }

@@ -13,7 +13,7 @@ class CountriesTableSeeder extends Seeder
     public function run()
     {
         DB::table('countries')->insert([
-            'name' => 'Ukraine',
+            'name' => 'Україна',
             'created_at' => Carbon::now(),
         ]);
     }

@@ -197,4 +197,48 @@ class User extends Authenticatable
 
         return $query;
     }
+
+    /**
+     * Get teachers.
+     *
+     * @param string $sort
+     * @param string $order
+     * @param array $filters
+     * @param string $search
+     *
+     * @return Illuminate\Database\Query\Builder
+    */
+    public function getTeachers($sort, $order, $filter, $search)
+    {
+        $userGroupId = \DB::table('user_groups')->where('group', 'teachers')->value('id');
+
+        $query = \DB::table('users')
+            ->select(
+                'roles.role',
+                'users.*'
+            )
+            ->join('roles', 'users.role_id', '=', 'roles.id');
+            
+        $query->where('users.user_group_id', $userGroupId);
+
+        foreach ($filter as $key => $value) {
+            if (!empty($value)) {
+                if ($key == 'status' && $value == 'active') {
+                    $query->whereNull('users.deleted_at');
+                } elseif ($key == 'status' && $value == 'deleted') {
+                    $query->whereNotNull('users.deleted_at');
+                } else {
+                    $query->where('users.'.$key.'_'.'id', $value);
+                }
+            }
+        }
+
+        if (!empty($search)) {
+            $query->where('last_name', 'like', $search.'%');
+        }
+
+        $query->orderBy($sort, $order);
+
+        return $query;
+    }
 }

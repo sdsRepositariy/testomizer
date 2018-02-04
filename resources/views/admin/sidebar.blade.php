@@ -19,7 +19,7 @@
   	</a>
   </div>
   <a href="#settings" data-toggle="collapse" class="list-group-item">Settings</a>
-  <div id="settings" class="{{\Request::is('settings/permissions*') ? 'collapse in' : 'collapse'}}">
+  <div id="settings" class="{{\Request::is('*settings*') ? 'collapse in' : 'collapse'}}">
     <a href="{{ url('settings/permissions/superadmin') }}" class="list-group-item clearfix {{\Request::is('settings/permissions*') ? 'active' : ''}}">
       <span class ="pull-right">Permissions</span>
     </a>

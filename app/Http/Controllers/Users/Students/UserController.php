@@ -76,10 +76,10 @@ class UserController extends Controller
         $input = $request->all();
 
         //Complete missed data
-        $input['login'] = $input['community_id'].'_'.str_slug($input['last_name']);
+        $input['user_group_id'] = Usergroup::where('group', 'students')->first()->id;
+        $input['login'] = $input['community_id'].'_'.str_slug($input['last_name']).'_'.$input['user_group_id'];
         $input['password'] = str_random(6);
         $input['role_id'] = Role::where('role', 'respondent')->first()->id;
-        $input['user_group_id'] = Usergroup::where('group', 'students')->first()->id;
 
         //Store user data
         $user = User::create($input);
