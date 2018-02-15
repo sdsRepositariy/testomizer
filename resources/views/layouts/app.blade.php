@@ -83,6 +83,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/users.js') }}"></script>
+    <!-- <script src="{{ asset('js/users.js') }}"></script> -->
 </body>
 </html>

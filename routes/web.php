@@ -82,5 +82,14 @@ Route::group(['middleware'=>'auth'], function () {
         Route::get('permissions/{role}', 'Roles\PermissionController@index');
         Route::post('permissions/{role}', 'Roles\PermissionController@save');
     });
+    Route::group(['prefix' => 'tasks'], function () {
+        Route::resource('list', 'Tasks\ListController');
+        Route::resource('folder', 'Tasks\FolderController');
+        Route::resource('new', 'Tasks\NewTasksController');
+        Route::resource('completed', 'Tasks\CompletedTasksController');
+    });
+    Route::group(['prefix' => 'tests'], function () {
+        //tests
+    });
     Route::get('/home', 'Users\HomeController@index');
 });

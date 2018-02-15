@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call(LevelsTableSeeder::class);
         $this->call(StreamsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+        $this->call(PermissionRoleTableSeeder::class);
+        $this->call(TaskFoldersTableSeeder::class);
+        $this->call(TaskListsTableSeeder::class);
     }
 }

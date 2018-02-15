@@ -28,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
             $objectId = Object::where('slug', $object)
                 ->firstOrFail()
                 ->id;
+
             return $user->role->permissions()
             ->where('object_id', $objectId)
             ->get()

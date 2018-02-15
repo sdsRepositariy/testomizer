@@ -5,6 +5,8 @@ namespace App\Models\Users;
 use App\Models\Roles\Role as Role;
 use App\Models\Users\Grade as Grade;
 use App\Models\Communities\Community as Community;
+use App\Models\Tasks\TaskList as TaskList;
+use App\Models\Tasks\TaskFolder as TaskFolder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -38,19 +40,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    /**
-     * Check if given role is Superadmin.
-     * The superadmin role has not parents
-     * so we will check if the role has a parent
-     *
-     * @return bool
-    */
-    public function isSuperadmin()
-    {
-        return $this->role->role_id === null;
-    }
-
    
     /**------------Model relationships------------*/
     
@@ -96,6 +85,24 @@ class User extends Authenticatable
     {
         return $this->belongsTo(__CLASS__, 'user_id');
     }
+
+    /**
+     * Get the tasks list for the user.
+     */
+    public function getTaskList()
+    {
+        return $this->hasMany(TaskList::class);
+    }
+
+    /**
+     * Get the task folders for the user.
+     */
+    public function getFolderList()
+    {
+        return $this->hasMany(TaskFolder::class);
+    }
+
+    /**------------Model queries------------*/
 
     /**
      * Get students.

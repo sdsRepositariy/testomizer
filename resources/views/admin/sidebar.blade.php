@@ -9,8 +9,21 @@
     @endforeach
   </div>
 
-  <a href="#test" data-toggle="collapse" class="list-group-item">Test manager</a>
-  <div id="test" class="collapse">
+   <a href="#tasks" data-toggle="collapse" class="list-group-item">Task manager</a>
+  <div id="tasks" class="collapse">
+    <a href="{{ url('tasks/list') }}" class="list-group-item clearfix">
+      <span class ="pull-right">Tasks list</span>
+    </a>
+    <a href="{{ url('tasks/new') }}" class="list-group-item clearfix">
+      <span class ="pull-right">New tasks</span>
+    </a>
+    <a href="{{ url('tasks/completed') }}" class="list-group-item clearfix">
+      <span class ="pull-right">Completed tasks</span>
+    </a>
+  </div>
+
+  <a href="#tests" data-toggle="collapse" class="list-group-item">Test manager</a>
+  <div id="tests" class="collapse">
   	<a href="#" class="list-group-item clearfix">
   		<span class ="pull-right">Create test</span>
   	</a>

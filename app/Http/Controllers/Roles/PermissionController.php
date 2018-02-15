@@ -17,8 +17,14 @@ class PermissionController extends Controller
      */
     public function index($role)
     {
+        if (\Gate::denies('view', 'permissions')) {
+            abort(403);
+        }
+
         $roles = Role::all();
+
         $permissions = Permission::all();
+
         $objects = Object::all();
        
         return view('admin.roles.index', [
@@ -37,6 +43,9 @@ class PermissionController extends Controller
      */
     public function save(Request $request, $role)
     {
+        if (\Gate::denies('create', 'permissions')) {
+            abort(403);
+        }
               
         //Clear intermedia table
         $role->permissions()->detach();
@@ -51,7 +60,8 @@ class PermissionController extends Controller
             $role->permissions()->attach($permissionId, ['object_id' => $objectId]);
         }
         
-         $message = ['flash_message'=>'The role permissions were successfully updated'];
+        $message = ['flash_message'=>'The role permissions were successfully updated'];
+
         return redirect()->back()->with($message);
     }
 }

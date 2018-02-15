@@ -13,10 +13,13 @@ class ObjectsTableSeeder extends Seeder
     {
         DB::table('objects')->insert([
             [
-                'slug' => "community",
+                'slug' => "home",
             ],
             [
-                'slug' => "home",
+                'slug' => "permissions",
+            ],
+            [
+                'slug' => "community",
             ],
             [
                 'slug' => "user",
@@ -34,10 +37,10 @@ class ObjectsTableSeeder extends Seeder
                 'slug' => "user-respondent",
             ],
             [
-                'slug' => "tests",
+                'slug' => "tasks",
             ],
             [
-                'slug' => "permissions",
+                'slug' => "tests",
             ],
         ]);
     }
