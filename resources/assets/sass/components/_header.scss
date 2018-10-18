@@ -1,0 +1,27 @@
+.app-header {
+	.app-header-text {
+		font-size: $app-header-font-size;
+		color: $app-header-color;
+		white-space: nowrap; 
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+    	width: unquote("calc( 100% - #{$btn-app-round-icon-size})");
+    	display: inline-block;
+    	vertical-align: middle;
+    	margin-right: -0.25em; //Delete word spacing
+	}
+	
+	@media (min-width: $screen-md-min) {
+		line-height: $app-header-height-md;
+	}
+
+	@media (max-width: $screen-sm-max) {
+		margin: 15px 0 15px 0;
+	}
+}
+
+.modal-body .app-header {
+	@media (min-width: $screen-md-min) {
+		margin: 0 0 15px 0;
+	}
+}

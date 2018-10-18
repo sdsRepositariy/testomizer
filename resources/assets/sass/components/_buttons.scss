@@ -1,0 +1,61 @@
+.btn-app-round-icon {
+	//$padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius
+	@include button-size(0, 0, 20px, 2, 50%);
+	height: $btn-app-round-icon-size;
+	width: $btn-app-round-icon-size;
+	> span {
+		text-align: center;
+	}
+	&:active:focus {
+    	outline: 0;
+  	}
+}
+
+.app-floating-action {
+	//$padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius
+	@include button-size(0, 0, 40px, 1, 50%);
+	border: 0;
+	height: $app-fab-height;
+	width: $app-fab-height;
+
+	> span {
+		text-align: center;
+	}
+	&:active:focus {
+    	outline: 0;
+  	}
+
+  	@media (max-width: $app-fab-mini-breackpoint) {
+  		@include button-size(0, 0, 30px, 1, 50%);
+
+  		height: $app-fab-mini-height;
+		width: $app-fab-mini-height;
+	}
+}
+
+.btn-app-flat {
+	@include button-size(0, 16px, 16px, 1, 2px);
+
+	border: 0;
+	height: 36px;
+
+	&:active:focus {
+    	outline: 0;
+  	}
+}
+
+// Alternate buttons
+// --------------------------------------------------
+.btn-app-icon-default {
+  	@include button-variant($btn-app-navbar-default-color, $btn-app-navbar-default-bg, $btn-app-navbar-default-border);
+}
+
+.btn-app-icon-primary {
+  	@include button-variant($btn-app-navbar-primary-color, $btn-app-navbar-primary-bg, $btn-app-navbar-primary-border);
+}
+
+.app-floating-action-primary {
+  	@include button-variant($app-floating-action-color, $app-floating-action-bg, $app-floating-action-border);
+}
+
+

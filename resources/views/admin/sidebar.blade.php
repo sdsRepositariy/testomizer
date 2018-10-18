@@ -10,8 +10,8 @@
   </div>
 
    <a href="#tasks" data-toggle="collapse" class="list-group-item">Task manager</a>
-  <div id="tasks" class="collapse">
-    <a href="{{ url('tasks/list') }}" class="list-group-item clearfix">
+  <div id="tasks" class="{{\Request::is('*tasks*') ? 'collapse in' : 'collapse'}}">
+    <a href="{{ url('tasks') }}" class="list-group-item clearfix {{\Request::is('*tasks*') ? 'active' : ''}}">
       <span class ="pull-right">Tasks list</span>
     </a>
     <a href="{{ url('tasks/new') }}" class="list-group-item clearfix">
@@ -44,3 +44,4 @@
     </a>
   </div>
 </div>
+

@@ -1,0 +1,33 @@
+.subheader {
+	height: $subheader-height;
+	padding: $subheader-padding 0;
+}
+
+.subheader-sort-link {
+	color: $muted;
+	text-align: left;
+
+
+	&:hover, &:active, &:hover:focus{
+		color: darken($muted, 30%);
+		text-decoration: none;
+	}
+
+	&:focus {
+		color: $muted;
+		text-decoration: none;
+		outline: 0;
+	}
+
+	> div {
+		display: inline;
+	}
+}
+
+.subheader > div > div:last-child {
+	text-align: left;
+	
+	@media (max-width: $screen-sm-max) {
+		text-align: right;
+	}
+}

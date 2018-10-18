@@ -1,0 +1,67 @@
+.app-sidebar {
+	background-color: $sidebar-background-color;
+	position: fixed;
+	top: 0;
+	height: 100%;
+	width: $sidebar-desktop-maxwidth;
+	border-right: 1px solid $sidebar-header-border-color;
+	z-index: 1051; //To overlap navbar left box shadow and modal z-ndex=1050
+	left: - $sidebar-desktop-maxwidth;
+
+	@media (min-width: $screen-md-min) {
+		left: 0;
+		z-index: 1030;
+  	}
+
+	.sidebar-header {
+		height: $app-navbar-height;
+		position: relative;
+		z-index: 10;
+	}
+
+	.sidebar-content-wrapper {
+		position: relative;
+		height: 100%;
+		width: $sidebar-desktop-maxwidth;
+		color: $sidebar-content-color;
+		z-index: 5;
+
+		@media (min-width: $screen-md-min) {
+			position: fixed;
+			top: 0px;
+			height: 100%;
+			padding-top: $app-navbar-height;
+  		}
+	}
+
+	.sidebar-content {
+		height: 100%;
+		width: 100%;
+		overflow-y: auto;
+	}
+
+	.list-group-item {
+		margin-bottom: -1px;
+
+		&:first-child, &:last-child {
+			border-top-right-radius: 0;
+			border-top-left-radius: 0;
+		}
+	}
+}
+
+.app-brand {
+	float: left;
+	padding: $navbar-padding-vertical $navbar-padding-horizontal;
+	font-size: $font-size-large;
+	line-height: $line-height-computed;
+	height: $navbar-height;
+	color: $navbar-default-brand-color;
+
+	&:hover,
+	&:focus {
+		text-decoration: none;
+  		color: $navbar-default-brand-hover-color;
+  		background-color: $navbar-default-brand-hover-bg;
+	}
+}

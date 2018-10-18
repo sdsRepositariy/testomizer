@@ -5,7 +5,7 @@ namespace App\Models\Users;
 use App\Models\Roles\Role as Role;
 use App\Models\Users\Grade as Grade;
 use App\Models\Communities\Community as Community;
-use App\Models\Tasks\TaskList as TaskList;
+use App\Models\Tasks\TaskItem as TaskItem;
 use App\Models\Tasks\TaskFolder as TaskFolder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -89,15 +89,15 @@ class User extends Authenticatable
     /**
      * Get the tasks list for the user.
      */
-    public function getTaskList()
+    public function taskItems()
     {
-        return $this->hasMany(TaskList::class);
+        return $this->hasMany(TaskItem::class);
     }
 
     /**
      * Get the task folders for the user.
      */
-    public function getFolderList()
+    public function taskFolders()
     {
         return $this->hasMany(TaskFolder::class);
     }

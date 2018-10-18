@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
+<div class="container">
+<!--     <div class="row">
         <div class="col-md-3">
             @include('admin.sidebar')
+            <div style="background-color: #fff; height: 100vh;"></div>
         </div>
         <div class="col-md-9">
             <div class="panel panel-default">
@@ -15,6 +16,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 @endsection

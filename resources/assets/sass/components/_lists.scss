@@ -1,0 +1,95 @@
+.single-line-avatar {
+	.list-description {
+		float: left;
+		width: calc(100% - 55px);
+		padding-right: $list-padding;
+	}
+
+	.list-primary-action {
+		text-decoration: none;
+		color: inherit;
+		outline: 0;
+
+		&:hover {
+			color: lighten(#000, 25%);
+
+			.list-item-badge >span {
+				background-color: lighten(#000, 25%);
+			}
+		}
+	}	
+	
+	.list-item-avatar {
+		float: left;
+		line-height: ($dense-list-height - $dense-top-padding*2);
+		width: $dense-list-height - $dense-top-padding*2;
+		height: $dense-list-height - $dense-top-padding*2;
+		font-size: $glyphicon-avatar-size;
+		display: inline-block;
+		text-align: center;
+		border-radius: 50%;
+	}
+	
+	.list-item-text {
+		line-height: (($dense-list-height - $dense-top-padding*2)/$font-size-base);
+		padding-left: $list-padding;
+		white-space: nowrap; 
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+	}
+
+	.list-item-badge {
+		line-height: (($dense-list-height - $dense-top-padding*2)/$font-size-base);
+		padding: 0;
+		text-align: right;
+	}
+
+	.list-secondary-action {
+		float: right;
+	}
+
+	> li:not(.list-divider) {
+		@include clearfix();
+
+		padding-top: $dense-top-padding;
+		padding-bottom: $dense-top-padding;
+	}
+
+	.list-divider {
+		background-color: $body-bg;
+		padding-left: $list-padding;
+		padding-right: $list-padding;
+	}
+
+	.dropdown-menu {
+		top: - $dense-top-padding;
+
+		a > div {
+			display: inline-block;
+			margin-left: 10px;
+		}
+	}
+	
+}
+
+.modal-body .single-line-avatar {
+	//The list for modal does not uses secondary acions,
+	//so primary action takes all block
+	.list-description {
+		width: 100%;
+	}
+
+	.list-divider {
+		background-color: transparent;
+	}
+}
+
+//Avatar colors
+.avatar-default {
+	background-color: $avatar-bg-default;
+}
+
+.avatar-primary {
+	background-color: $avatar-bg-primary;
+	color: $avatar-primary-color;
+}

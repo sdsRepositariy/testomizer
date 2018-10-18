@@ -15,6 +15,7 @@ class AddFkToTaskFoldersTable extends Migration
     {
         Schema::table('task_folders', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('task_folder_id')->references('id')->on('task_folders')->onDelete('cascade');
         });
     }
 
@@ -27,6 +28,7 @@ class AddFkToTaskFoldersTable extends Migration
     {
         Schema::table('task_folders', function (Blueprint $table) {
             $table->dropForeign('task_folders_user_id_foreign');
+            $table->dropForeign('task_folders_task_folder_id_foreign');
         });
     }
 }

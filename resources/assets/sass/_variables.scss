@@ -17,7 +17,8 @@ $brand-warning: #cbb956;
 $brand-danger: #bf5329;
 
 // Typography
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+// $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$icon-font-path: "../fonts/vendor/bootstrap-sass/bootstrap/";
 $font-family-sans-serif: "Raleway", sans-serif;
 $font-size-base: 14px;
 $line-height-base: 1.6;
@@ -36,3 +37,88 @@ $input-color-placeholder: lighten($text-color, 30%);
 
 // Panels
 $panel-default-heading-bg: #fff;
+
+
+//----------------App variables----------------
+
+//-------------------------Layout---------------------
+// Divider
+$section-divider-width: 1px;
+$section-divider-color: darken($body-bg, 10%);
+
+//Navbar
+$app-navbar-background-color: #fff;
+$app-navbar-box-shadow: 0 2px 5px rgba(0,0,0,.26);
+$app-navbar-height: 56px;
+
+// Sidebar
+$sidebar-background-color: #fff;
+$sidebar-header-border-color: #d3e0e9;
+$sidebar-content-color: #000;
+$sidebar-desktop-maxwidth: 270px;
+$sidebar-transition-duration: 1s;
+
+//Content
+$content-background-color: inherit;
+$content-height: 100vh;
+$content-width: 100%;
+
+// Colors
+$info-bg: darken(#d9edf7, 15%);
+$warninig-bg: darken(#fcf8e3, 25%);
+$muted: lighten(#000, 46.7%);
+
+//Buttons
+$btn-app-navbar-default-color: $btn-default-color;
+$btn-app-navbar-default-bg: #fff;
+$btn-app-navbar-default-border: transparent;
+
+$btn-app-navbar-primary-bg: $body-bg;
+$btn-app-navbar-primary-color: $brand-primary;
+$btn-app-navbar-primary-border: transparent;
+
+$btn-app-round-icon-size: 40px;
+
+$app-floating-action-color: #fff;
+$app-floating-action-bg: $brand-primary;
+$app-floating-action-border: transparent;
+
+$app-fab-mini-height: 40px;
+$app-fab-height: 56px;
+
+$app-fab-mini-breackpoint: 460px;
+
+$app-fab-position-bottom: 20px;
+$app-fab-position-right: 20px;
+
+//Snackbar
+$snackbar-background: #323232;
+$snackbar-color: #fff;
+$snackbar-line-height: 1.2;
+$snackbar-font-size: 14px;
+
+
+//Subheader
+$subheader-height: 48px;
+$subheader-padding: ($subheader-height - $font-size-base*$line-height-base)/2;
+
+//Lists
+//Dense single-line item with avatar and icon specs
+$dense-list-height: 48px;
+$list-padding: 15px;
+$dense-top-padding: 4px;
+$glyphicon-avatar-size: 20px;
+
+$avatar-bg-default: lighten(#000, 85%);
+$avatar-bg-primary: $brand-primary;
+$avatar-primary-color: #fff;
+
+
+//App panel
+$app-panel-wrapper-top: 164px;
+
+
+//App header
+$app-header-font-size: 24px;
+$app-header-color: $brand-primary;
+$app-header-height-md: $app-panel-wrapper-top - $subheader-height - $app-navbar-height;

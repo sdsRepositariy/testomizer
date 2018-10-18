@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TaskListsTableSeeder extends Seeder
+class TaskItemsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,10 +11,9 @@ class TaskListsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('task_lists')->insert([
+        DB::table('task_items')->insert([
             [
                 'user_id' => 1,
-                'task_folder_id' => 1,
                 'name' => 'Default',
             ],
         ]);

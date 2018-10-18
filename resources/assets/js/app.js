@@ -11,10 +11,19 @@ require('./bootstrap');
  * Next, we will create a fresh Vue application instance for certain pages.
  */
 
-if (document.getElementById('task_manager')) {
-	Vue.component('task-list', require('./components/tasks/TaskList.vue'));
 
-	const app = new Vue({
-    	el: '#app' 
-	}); 
-}
+// Vue.component('task-list', require('./components/tasks/TaskList.vue'));
+
+// const app = new Vue({
+// 	el: '#app' 
+// }); 
+
+require('./fab_toggle');
+
+require('./snackbar');
+
+require('./sort_handler');
+
+require('./action_menu');
+
+require('./action_handler');

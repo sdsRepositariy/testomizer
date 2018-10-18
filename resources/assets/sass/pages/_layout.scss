@@ -1,0 +1,22 @@
+.app-container {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 100%;
+	padding-top: $app-navbar-height;
+	background-color: $body-bg;
+
+	@media (min-width: $screen-md-min) {
+		left: $sidebar-desktop-maxwidth;
+	}
+	
+	@media (max-width: $screen-sm-max) {
+		overflow: auto;
+	}
+
+	.full-height {
+		height: 100%;
+		overflow-y: auto;
+	}
+}

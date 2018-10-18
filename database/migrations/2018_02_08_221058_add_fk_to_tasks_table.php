@@ -15,7 +15,7 @@ class AddFkToTasksTable extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             $table->foreign('period_id')->references('id')->on('periods');
-            $table->foreign('task_list_id')->references('id')->on('task_lists');
+            $table->foreign('task_item_id')->references('id')->on('task_items');
         });
     }
 
@@ -28,7 +28,7 @@ class AddFkToTasksTable extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             $table->dropForeign('tasks_period_id_foreign');
-            $table->dropForeign('tasks_task_list_id_foreign');
+            $table->dropForeign('tasks_task_item_id_foreign');
         });
     }
 }

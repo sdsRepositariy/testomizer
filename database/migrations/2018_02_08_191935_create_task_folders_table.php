@@ -16,10 +16,11 @@ class CreateTaskFoldersTable extends Migration
         Schema::create('task_folders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('sort_order');
+            $table->integer('task_folder_id')->unsigned()->nullable();
             $table->string('name', 64);
             $table->string('description', 255)->nullable();
             $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

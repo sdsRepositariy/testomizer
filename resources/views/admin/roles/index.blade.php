@@ -1,12 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container-fluid full-height">
     <div class="row">
-        <div class="col-md-3">
-            @include('admin.sidebar')
-        </div>
-        <div class="col-md-9">
+        <div class="col-xs-12">
             @if ( \Session::has('flash_message') )
             <div class="alert alert-success alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>

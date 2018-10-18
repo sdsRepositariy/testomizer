@@ -1,0 +1,63 @@
+.app-navbar {
+	background-color: $app-navbar-background-color;
+	box-shadow: $app-navbar-box-shadow;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: $app-navbar-height;
+	border-width: 0 0 1px;
+	z-index: 10;
+	border-radius: 0; // Undo the rounded corners
+
+	@media (min-width: $screen-md-min) {
+		left: $sidebar-desktop-maxwidth;
+	}
+
+	.navbar-nav {
+		margin: 0;
+	}
+
+	.app-navbar-header {
+		height: $navbar-height;
+		position: relative;
+		z-index: 10;
+	}
+	
+	.btn-app-round-icon {
+		margin-top: ($app-navbar-height - $btn-app-round-icon-size)/2;
+	}
+}
+
+.app-dropdown-header {
+	color: #fff;
+	background-color: $brand-primary;
+	margin-top: -5px;
+	padding: 3px 20px;
+}
+
+.app-navbar-toggle {  
+	position: relative;
+	margin-top: ($app-navbar-height - 34px)/2;
+	padding: 9px 10px;
+	background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+	background-color: #fff;
+	border: none;
+
+	&:focus {
+    	outline: 0;
+  	}
+
+	// Bars
+	.icon-bar {
+		display: block;
+		width: 22px;
+		height: 2px;
+		border-radius: 1px;
+		background-color: $navbar-default-toggle-icon-bar-bg;
+	}
+
+	.icon-bar + .icon-bar {
+		margin-top: 4px;
+	}
+}

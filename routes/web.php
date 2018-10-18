@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 /*
@@ -83,8 +83,13 @@ Route::group(['middleware'=>'auth'], function () {
         Route::post('permissions/{role}', 'Roles\PermissionController@save');
     });
     Route::group(['prefix' => 'tasks'], function () {
-        Route::resource('list', 'Tasks\ListController');
-        Route::resource('folder', 'Tasks\FolderController');
+        Route::get('/', 'Tasks\TaskListController@getList');
+        Route::get('/folder/{folder}/list', 'Tasks\TaskListController@getSublist');
+        Route::get('/folder/{folder}/move', 'Tasks\TaskListController@moveFolder');
+        Route::get('list/{id}/delete', 'Tasks\ItemController@delete');
+        Route::resource('list', 'Tasks\ItemController', ['except' => ['index']]);
+        Route::get('folder/{id}/delete', 'Tasks\FolderController@delete');
+        Route::resource('folder', 'Tasks\FolderController', ['except' => ['index']]);
         Route::resource('new', 'Tasks\NewTasksController');
         Route::resource('completed', 'Tasks\CompletedTasksController');
     });

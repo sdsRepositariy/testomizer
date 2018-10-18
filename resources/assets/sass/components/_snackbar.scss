@@ -1,0 +1,52 @@
+.snackbar {
+	display: none;
+	min-width: 280px;
+	max-width: 568px;
+	border: 1px #323232 solid;
+	padding-right: 24px;
+	padding-left: 24px;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+    margin-right: -50%;
+    background-color: $snackbar-background;
+    color: $snackbar-color;
+   	z-index: 1055;
+
+    @include translate(-50%, 0);
+
+
+	@media (min-width: $screen-md-min) {
+		border-radius: 2px;
+	}
+
+	.snackbar-content {
+		line-height: $snackbar-line-height;
+		overflow: hidden;
+	}
+
+	.snackbar-one-line {
+		margin-top: 14px;
+		margin-bottom: 14px;
+		height: $snackbar-font-size * $snackbar-line-height;
+	}
+
+	.snackbar-two-line {
+		margin-top: 24px;
+		margin-bottom: 24px;
+		height: $snackbar-font-size * $snackbar-line-height * 2;
+	}
+
+	.snackbar-success {
+		color: #fff;
+	}
+
+	.snackbar-error {
+		color:  #FF6347;
+	}
+
+}
+
+.snackbar-toggle {
+	display: none;
+}

@@ -1,0 +1,107 @@
+.action-menu {
+	display: none;
+
+	@media (min-width: $screen-md-min) {
+		display: block;
+		float: left;
+		margin-left: 30px;
+		margin-top: ($app-navbar-height - 36px)/2;
+
+		.dropdown-menu a > div {
+			display: inline-block;
+			margin-left: 10px;
+		}
+	}
+	
+	&-fab {
+		display: none;
+		
+		@media (max-width: $screen-sm-max) {
+			display: block;
+			position: fixed;
+			bottom: $app-fab-position-bottom;
+			right: $app-fab-position-right;
+
+			.app-floating-action {
+				position: absolute;
+				bottom: 0px;
+				right: 0px;
+			}
+
+			/*height and width must be equal*/
+			.transforming-box{
+				position: absolute;
+				bottom: $app-fab-height/2;	
+				right: $app-fab-height/2;
+				height: 0px;
+				width: 0px;
+				overflow: hidden;
+				z-index: 20;
+				border-radius: 50%;
+
+				@media (max-width: $app-fab-mini-breackpoint) {
+					bottom: $app-fab-mini-height/2;
+					right: $app-fab-mini-height/2;
+				}
+			}
+
+			.content-wrapper {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 50%;
+				width: 50%;
+			}
+
+			.dropdown-menu{
+				position: absolute;
+				/*Button position + initial block height + 1/2 button height*/
+				bottom: -($app-fab-position-bottom + $app-fab-height/2);
+				/*Button position + initial block width + 1/2 button width*/
+				right: -($app-fab-position-right + $app-fab-height/2);
+				height: 110px;
+				width: 100vw;
+				top: auto;
+				left: auto;
+
+				> li {
+					float: left;
+
+					> a {
+						font-size: 18px;
+						text-align: center;
+						line-height: 1.5;
+						margin-left: 10px;
+						padding: 3px 5px;
+					}
+
+					&:first-child {
+						width: 100%;
+						font-size: 18px;
+						text-align: center;
+					}
+
+					&:last-child > a{
+						margin-right: 10px;
+					}
+				}
+				
+				@media (max-width: $app-fab-mini-breackpoint) {
+					/*Button position + initial block height + 1/2 button height*/
+					bottom: -($app-fab-position-bottom + $app-fab-mini-height/2);
+					/*Button position + initial block width + 1/2 button width*/
+					right: -($app-fab-position-right + $app-fab-mini-height/2);
+					
+					li > a {
+						font-size: 14px;
+					}
+				}
+			}
+
+			.fab-open {
+				bottom: -$app-fab-position-bottom;
+				right: -$app-fab-position-right;
+			}
+		}
+	}
+}
