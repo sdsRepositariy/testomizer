@@ -8192,12 +8192,16 @@ fieldset[disabled] .app-floating-action-primary.focus {
   outline: 0;
 }
 
-.single-line-avatar .list-primary-action:hover {
+.single-line-avatar .list-primary-action:not(.disabled-link):hover {
   color: #404040;
 }
 
-.single-line-avatar .list-primary-action:hover .list-item-badge > span {
+.single-line-avatar .list-primary-action:not(.disabled-link):hover .list-item-badge > span {
   background-color: #404040;
+}
+
+.single-line-avatar .list-primary-action.disabled-link {
+  cursor: not-allowed;
 }
 
 .single-line-avatar .list-item-avatar {

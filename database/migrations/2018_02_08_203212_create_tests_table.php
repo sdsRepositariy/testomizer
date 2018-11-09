@@ -15,10 +15,10 @@ class CreateTestsTable extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('test_folder_id')->unsigned();
-            $table->string('name', 128);
+            $table->integer('test_folder_id')->unsigned()->nullable();
+            $table->string('name', 64);
             $table->string('description', 255)->nullable();
-            $table->time('duration');
+            $table->smallInteger('duration');
             $table->string('layout_path', 255);
             $table->boolean('skip_question');
             $table->timestamp('created_at')->nullable();

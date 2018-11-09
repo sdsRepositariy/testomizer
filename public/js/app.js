@@ -68,7 +68,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-module.exports = __webpack_require__(12);
+module.exports = __webpack_require__(15);
 
 
 /***/ }),
@@ -103,6 +103,12 @@ __webpack_require__(9);
 __webpack_require__(10);
 
 __webpack_require__(11);
+
+__webpack_require__(12);
+
+__webpack_require__(13);
+
+__webpack_require__(14);
 
 /***/ }),
 /* 2 */
@@ -19748,7 +19754,7 @@ if (typeof jQuery === 'undefined') {
                 bottom: -diagonal + (buttonBottom + initialHeight + buttonHeight / 2),
                 right: -diagonal + (buttonRight + initialWidth + buttonWidth / 2)
             }, 200, function () {
-                actionMenu.find(".content-wrapper").unwrap().find(".dropdown-menu").addClass("fab-open").actionHandler();
+                actionMenu.find(".content-wrapper").unwrap().find(".dropdown-menu").addClass("fab-open").listActionModalLoader();
             });
 
             actionMenu.find("#action_menu_target").on('hide.bs.dropdown', function () {
@@ -20042,21 +20048,21 @@ $(".action-menu").getIcons();
 (function ($) {
 
 	// Plugin definition.
-	$.fn.actionHandler = function (settings) {
+	$.fn.listActionModalLoader = function (settings) {
 
 		var self = this;
 
 		self.options = $.extend({
-			list: $(this),
+			action: $(this).find("a"),
 			titleAttr: "data-modal-title",
-			parentGroupAttr: "data-parent-group",
+			parentFolderAttr: "data-parent-folder",
 			appModal: "#app_modal"
 		}, settings);
 
 		setup();
 
 		function setup() {
-			self.options.list.find("a").each(function () {
+			self.options.action.each(function () {
 				$(this).click(getContent);
 			});
 		};
@@ -20073,7 +20079,8 @@ $(".action-menu").getIcons();
 
 			$.ajax({
 				method: "GET",
-				url: target.attr('href')
+				url: target.attr('href'),
+				data: { parent_folder: target.attr(self.options.parentFolderAttr) }
 			}).done(function (html) {
 				showModal(html, target);
 			}).fail(function (jqXHR, textStatus, errorThrown) {
@@ -20082,15 +20089,253 @@ $(".action-menu").getIcons();
 		};
 
 		function showModal(html, target) {
+			//Show modal
 			$(self.options.appModal).append(html).find(".modal").modal("show").find(".modal-title").text(target.attr(self.options.titleAttr));
 
-			$('input#parent_group').attr("value", target.attr(self.options.parentGroupAttr));
+			$(self.options.appModal).on('hidden.bs.modal', deleteModal);
+		};
+
+		function deleteModal() {
+			$(this).empty();
 		};
 	};
 })(jQuery);
 
 /***/ }),
 /* 12 */
+/***/ (function(module, exports) {
+
+(function ($) {
+
+	// Plugin definition.
+	$.fn.submitModalForm = function (settings) {
+
+		var self = this;
+
+		self.options = $.extend({
+			modal: "#app_modal",
+			submitButton: $(self),
+			submitFormHidden: "#submit_form_hidden"
+		}, settings);
+
+		setup();
+
+		function setup() {
+			$(self.options.submitButton).on("click", submit);
+		};
+
+		function submit(event) {
+			event.preventDefault();
+			var modal = $(self.options.modal);
+
+			// A hack to force the browser to display the native HTML5 error messages.
+			if (!$(modal).find("form")[0].checkValidity()) {
+				// The form won't actually submit		
+				$(modal).find("form " + self.options.submitFormHidden + "").click();
+			} else {
+				$.ajax({
+					method: modal.find("input[name=\'_method\']").val(),
+					url: modal.find("form").attr('action'),
+					data: modal.find("input[type=\'text\'], textarea"),
+					dataType: 'json',
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+				}).done(function (response) {
+					location.reload();
+				}).fail(function (jqXHR, textStatus, errorThrown) {
+					if (jqXHR['status'] == '422') {
+						modal.find(".form-group").removeClass("has-error");
+
+						var response = jqXHR['responseJSON'];
+
+						for (var prop in response) {
+							var errorBlock = $("<span></span>").addClass("help-block").append($("<strong>" + response[prop] + "</strong>"));
+
+							modal.find("input[name=" + prop + "], textarea[name=" + prop + "]").parents(".form-group").addClass("has-error").children("div").append(errorBlock);
+						}
+					} else if (jqXHR['status'] == '400') {
+						modal.find(".help-block").remove();
+
+						var response = jqXHR['responseJSON'];
+
+						var errorBlock = $("<span></span>").addClass("help-block").append($("<strong>" + response["error"] + "</strong>"));
+
+						modal.find(".modal-body").addClass("has-error").append(errorBlock);
+					} else if (jqXHR['status'] == '500' || jqXHR['status'] == '404') {
+						window.open("", "_self").document.write(jqXHR["responseText"]);
+					} else {
+						console.log(jqXHR);
+					}
+				});
+			}
+		};
+	};
+})(jQuery);
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+(function ($) {
+
+	// Plugin definition.
+	$.fn.submitModalList = function (settings) {
+
+		var self = this;
+
+		self.options = $.extend({
+			submitButton: $(this),
+			upward: ".app-header a",
+			action: "moveto"
+		}, settings);
+
+		setup();
+
+		function setup() {
+			$(self.options.submitButton).on("click", submit);
+		};
+
+		function submit(event) {
+			event.preventDefault();
+
+			var target = self.options.submitButton.attr("data-target");
+
+			var moveTo = self.options.submitButton.parent().siblings(".modal-body").find(self.options.upward);
+
+			var url = self.options.submitButton.attr("data-path") + "/" + target + "/" + self.options.action;
+
+			if (moveTo.length != 0) {
+				url += "/" + moveTo.attr("data-current-folder");
+			}
+
+			$.ajax({
+				method: "POST",
+				url: url,
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			}).done(function (response) {
+				location.reload();
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				window.open("", "_self").document.write(jqXHR["responseText"]);
+			});
+		};
+	};
+})(jQuery);
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+(function ($) {
+
+	// Plugin definition.
+	$.fn.viewModalList = function (settings) {
+
+		var self = this;
+
+		self.options = $.extend({
+			modalList: $(this),
+			upward: ".app-header a",
+			folder: "a.list-primary-action",
+			submitButton: "#app_modal_submit"
+		}, settings);
+
+		var submitButton = $(self.options.submitButton);
+		var upwardLink = $(self.options.modalList).find(self.options.upward);
+		var folders = $(self.options.modalList).find(self.options.folder);
+
+		setup();
+
+		function setup() {
+			if (submitButton.attr("name") == "move_folder") {
+				var targetFolder = getTargetFolder(submitButton.attr("data-target"), folders);
+
+				if (targetFolder != false) {
+					$(targetFolder).addClass("disabled-link");
+					submitButton.attr("disabled", "disabled");
+				} else {
+					submitButton.removeAttr("disabled");
+				}
+			} else if (submitButton.attr("name") == "move_item") {
+				//For root folder the "currentItemFolder" is undefined
+				if (upwardLink.length == 0) {
+					var currentFolder = "";
+				} else {
+					currentFolder = upwardLink.attr("data-current-folder");
+				}
+
+				if (submitButton.attr("data-task-folder") == currentFolder) {
+					submitButton.attr("disabled", "disabled");
+				} else {
+					submitButton.removeAttr("disabled");
+				}
+			}
+
+			//Add event handler
+			if (upwardLink.length != 0) {
+				upwardLink.on("click", getContent);
+			}
+
+			if (folders.length != 0) {
+				folders.on("click", getContent);
+			}
+		};
+
+		function getTargetFolder(targetFolder, folders) {
+			var foundFolder = "";
+
+			folders.each(function (index) {
+				if (getFolderId(this.pathname) == targetFolder) {
+					foundFolder = this;
+					return false;
+				}
+			});
+
+			if (foundFolder != "") {
+				return foundFolder;
+			} else {
+				return false;
+			}
+		};
+
+		function getFolderId(pathname) {
+			var regexp = /(\d+)\/list$/;
+
+			var folderId = pathname.match(regexp);
+
+			if (folderId != null) {
+				return folderId[1];
+			} else {
+				return "";
+			}
+		};
+
+		function getContent(event) {
+			event.preventDefault();
+
+			var target = $(event.currentTarget);
+
+			//Prevent call for disabled link
+			if (target.parent('li').hasClass("disabled") || target.hasClass("disabled-link")) {
+				return false;
+			}
+
+			$.ajax({
+				method: "GET",
+				url: target.attr('href')
+			}).done(function (html) {
+				$(self.options.modalList).empty().append(html);
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				window.open("", "_self").document.write(jqXHR["responseText"]);
+			});
+		};
+	};
+})(jQuery);
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

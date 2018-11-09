@@ -15,9 +15,9 @@ class CreateTestFoldersTable extends Migration
     {
         Schema::create('test_folders', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('test_folder_id')->unsigned()->nullable();
             $table->string('name', 64);
             $table->string('description', 255)->nullable();
-            $table->integer('sort_order');
             $table->timestamp('created_at')->nullable();
         });
     }

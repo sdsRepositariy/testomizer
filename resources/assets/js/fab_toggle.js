@@ -48,7 +48,7 @@ $("#action_menu").on("click", function(){
                                         .unwrap()
                                         .find(".dropdown-menu")
                                         .addClass("fab-open")
-                                        .actionHandler();
+                                        .listActionModalLoader();
     });
 
 

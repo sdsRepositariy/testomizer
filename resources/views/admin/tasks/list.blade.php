@@ -5,15 +5,15 @@
 	<!-- Group list -->
 	<div>
 		<div class="app-header clearfix">
-			@if($taskFolder->exists)
-				@if(empty($taskFolder->task_folder_id))
+			@if($folder->exists)
+				@if(empty($folder->parent))
 				<a class="btn btn-app-icon-primary btn-app-round-icon" href="{{ url('tasks') }}">
 				@else
-				<a class="btn btn-app-icon-primary btn-app-round-icon" href="{{ url($folderPath, $taskFolder->task_folder_id).'/list' }}">
+				<a class="btn btn-app-icon-primary btn-app-round-icon" href="{{ url($folderPath, $folder->parent->id).'/list' }}">
 				@endif
 					<span class="glyphicon glyphicon-menu-left"></span>
 				</a>
-				<div class="app-header-text">{{ $taskFolder->name }}</div>
+				<div class="app-header-text">{{ $folder->name }}</div>
 			@else
 				<div class="app-header-text">@lang('admin/tasks.task_list')</div>
 			@endif			
@@ -60,7 +60,7 @@
 <script>
 	//Run handler
 	$(function(){
-		$('.list-secondary-action').actionHandler();
+		$('.list-secondary-action').listActionModalLoader();
 	});
 </script>
 @endsection

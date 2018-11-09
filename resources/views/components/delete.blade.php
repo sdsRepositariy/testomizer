@@ -1,6 +1,6 @@
 @extends('components.modal')
 
-@section('form')
+@section('body')
 
 <form method="POST" action="{{ $action }}">
 	{{ method_field('DELETE') }}

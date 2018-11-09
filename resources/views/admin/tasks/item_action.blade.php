@@ -22,7 +22,7 @@
 			</a>
 		</li>
 		<li>
-			<a href="{{ url($itemPath, [$item->id, 'moveto']) }}" data-modal-title="@lang('admin/tasks.move_task')">
+			<a href="{{ url($itemPath, [$item->id, 'move']) }}" data-modal-title="@lang('admin/tasks.move_task')">
 				<span class="glyphicon glyphicon-transfer"></span>
 				<div>@lang('common.move')</div>
 			</a>

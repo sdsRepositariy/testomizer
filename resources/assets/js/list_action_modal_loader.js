@@ -1,21 +1,21 @@
 (function ( $ ) {
 
 // Plugin definition.
-$.fn.actionHandler = function( settings ) {
+$.fn.listActionModalLoader = function( settings ) {
 
 	var self = this;
 
 	self.options =  $.extend({
-    	list: $(this),
+    	action: $(this).find("a"),
         titleAttr: "data-modal-title",
-        parentGroupAttr: "data-parent-group",
+        parentFolderAttr: "data-parent-folder",
         appModal: "#app_modal",
     }, settings );
     
     setup();       
 
 	function setup () {
-		self.options.list.find("a").each(function() {
+		self.options.action.each(function() {
 			$(this).click(getContent);
 		});
 	};
@@ -25,7 +25,7 @@ $.fn.actionHandler = function( settings ) {
 		event.preventDefault();
 
 		var target = $(event.currentTarget);
-
+		
 		//Prevent call for disabled link
 		if ( target.parent('li').hasClass("disabled") ) {
 			return false;
@@ -34,6 +34,7 @@ $.fn.actionHandler = function( settings ) {
 		$.ajax({
 			method: "GET",
 			url: target.attr('href'),
+			data: {parent_folder: target.attr(self.options.parentFolderAttr)},
 		})
 		.done(function(html) {
 			showModal( html, target );
@@ -44,13 +45,18 @@ $.fn.actionHandler = function( settings ) {
 	};
 
 	function showModal(html, target) {
+		//Show modal
 		$(self.options.appModal).append(html)
 					.find(".modal")
 					.modal("show")
 					.find(".modal-title")
 					.text(target.attr(self.options.titleAttr));
 
-		$('input#parent_group').attr("value", target.attr(self.options.parentGroupAttr));
+		$(self.options.appModal).on('hidden.bs.modal', deleteModal);
+	};
+
+	function deleteModal() {
+		$(this).empty();
 	};
 
 };	

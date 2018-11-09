@@ -13,7 +13,7 @@
         @else
         <li>
         @endif
-            <a href="{{ $action != false? $action: '#' }}" data-action-name="{{ $actionName }}" data-modal-title="@lang('admin/actions.'.$actionName)" data-parent-group="{{ $taskFolder->exists ? $taskFolder->id : '' }}">
+            <a href="{{ $action != false? $action: '#' }}" data-action-name="{{ $actionName }}" data-modal-title="@lang('admin/actions.'.$actionName)" data-parent-folder="{{ $folder->exists ? $folder->id : '' }}">
                 <span class="glyphicon"></span>
                 <div>@lang('admin/actions.'.$actionName)</div>
             </a>
@@ -24,6 +24,6 @@
 <script>
     //Run handler
     $(function(){
-        $('.action-menu').actionHandler();
+        $('.action-menu').listActionModalLoader();
     }); 
 </script>

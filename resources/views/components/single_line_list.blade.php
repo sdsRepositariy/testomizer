@@ -1,7 +1,7 @@
 <ul class="list-group single-line-avatar">
 	@foreach ($folders as $folder)	
 	<li class="list-group-item">
-		<a href="{{ url($folderPath, $folder->id).'/list' }}" class="list-description list-primary-action">
+		<a href="{{ url($folderPath, [$folder->id, $folderPrimaryAction]) }}" class="list-description list-primary-action">
 			<div class="row">
 				<div class="col-xs-10 col-sm-11">
 					<div class="list-item-avatar avatar-default">
@@ -15,8 +15,8 @@
 			</div>
 		</a>
 
-		@if (isset($folderAction))
-		 	@include($folderAction)
+		@if (isset($folderActionView))
+		 	@include($folderActionView)
 		@endif
 
 	</li>
@@ -47,8 +47,8 @@
 			</div>
 		</div>
 
-		@if (isset($itemAction))
-		 	@include($itemAction)
+		@if (isset($itemActionView))
+		 	@include($itemActionView)
 		@endif
 
 	</li>	

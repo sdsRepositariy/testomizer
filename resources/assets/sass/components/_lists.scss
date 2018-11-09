@@ -10,14 +10,18 @@
 		color: inherit;
 		outline: 0;
 
-		&:hover {
+		&:not(.disabled-link):hover {
 			color: lighten(#000, 25%);
 
 			.list-item-badge >span {
 				background-color: lighten(#000, 25%);
 			}
 		}
-	}	
+		
+		&.disabled-link {
+			cursor: not-allowed;
+		}	
+	}
 	
 	.list-item-avatar {
 		float: left;

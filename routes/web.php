@@ -84,17 +84,21 @@ Route::group(['middleware'=>'auth'], function () {
     });
     Route::group(['prefix' => 'tasks'], function () {
         Route::get('/', 'Tasks\TaskListController@getList');
-        Route::get('/folder/{folder}/list', 'Tasks\TaskListController@getSublist');
-        Route::get('/folder/{folder}/move', 'Tasks\TaskListController@moveFolder');
-        Route::get('list/{id}/delete', 'Tasks\ItemController@delete');
-        Route::resource('list', 'Tasks\ItemController', ['except' => ['index']]);
-        Route::get('folder/{id}/delete', 'Tasks\FolderController@delete');
+        Route::get('/folder/{folderId}/list', 'Tasks\TaskListController@getlist');
+        Route::get('/folder/{folderId}/move', 'Tasks\TaskListController@moveFolder');
+        Route::post('/folder/{folderId}/moveto/{newFolderId?}', 'Tasks\TaskListController@moveFolderTo');
+        Route::get('task/{itemId}/move', 'Tasks\TaskListController@moveItem');
+        Route::post('task/{itemId}/moveto/{newFolderId?}', 'Tasks\TaskListController@moveItemTo');
+        Route::get('task/{itemId}/delete', 'Tasks\ItemController@delete');
+        Route::resource('task', 'Tasks\ItemController', ['except' => ['index']]);
+        Route::get('folder/{folderId}/delete', 'Tasks\FolderController@delete');
         Route::resource('folder', 'Tasks\FolderController', ['except' => ['index']]);
         Route::resource('new', 'Tasks\NewTasksController');
         Route::resource('completed', 'Tasks\CompletedTasksController');
     });
     Route::group(['prefix' => 'tests'], function () {
-        //tests
+        Route::get('/', 'Tests\TestListController@getList');
+        Route::get('/folder/{folderId}/list', 'Tests\TestListController@getlist');
     });
     Route::get('/home', 'Users\HomeController@index');
 });

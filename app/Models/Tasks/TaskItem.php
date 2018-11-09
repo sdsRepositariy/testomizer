@@ -3,7 +3,7 @@
 namespace App\Models\Tasks;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tasks\TaskItem as TaskItem;
+use App\Models\Tasks\TaskFolder as TaskFolder;
 
 class TaskItem extends Model
 {
@@ -13,4 +13,12 @@ class TaskItem extends Model
      * @var array
     */
     protected $fillable = ['user_id', 'name', 'description', 'task_folder_id'];
+
+    /**
+     * Get the folder that owns the task.
+    */
+    public function taskFolder()
+    {
+        return $this->belongsTo(TaskFolder::class);
+    }
 }

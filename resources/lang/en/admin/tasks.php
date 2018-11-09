@@ -27,10 +27,12 @@ return [
     'folder_created' => 'The folder was successfully created!',
     'folder_updated' => 'The folder was successfully updated!',
     'folder_deleted' => 'The folder was successfully deleted!',
+    'folder_moved' => 'The folder was successfully moved!',
     'unable_delete_folder' => 'The folder is not empty and can not be deleted.',
     'task_created' => 'The task was successfully created!',
     'task_updated' => 'The task was successfully updated!',
     'task_deleted' => 'The task was successfully deleted!',
+    'task_moved' => 'The task was successfully moved!',
 
 
 ];

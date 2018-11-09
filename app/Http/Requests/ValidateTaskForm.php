@@ -13,10 +13,18 @@ class ValidateTaskForm extends FormRequest
      */
     public function authorize()
     {
-        //Check permittion to create a community.
-        if (\Gate::denies('create', 'tasks')) {
+        //Action to authorize
+        if (\Request::isMethod('POST')) {
+            $action = 'create';
+        } else {
+            $action = 'update';
+        }
+
+        //Check permittion to perform an action.
+        if (\Gate::denies($action, 'tasks')) {
             return false;
         }
+
 
         return true;
     }

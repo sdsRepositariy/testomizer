@@ -23,13 +23,13 @@
   </div>
 
   <a href="#tests" data-toggle="collapse" class="list-group-item">Test manager</a>
-  <div id="tests" class="collapse">
-  	<a href="#" class="list-group-item clearfix">
-  		<span class ="pull-right">Create test</span>
-  	</a>
-  	<a href="#" class="list-group-item clearfix">
+  <div id="tests" class="{{\Request::is('*tests*') ? 'collapse in' : 'collapse'}}">
+  	<a href="{{ url('tests') }}" class="list-group-item clearfix">
   		<span class ="pull-right">Test lists</span>
   	</a>
+    <a href="#" class="list-group-item clearfix">
+      <span class ="pull-right">Create test</span>
+    </a>
   </div>
   <a href="#settings" data-toggle="collapse" class="list-group-item">Settings</a>
   <div id="settings" class="{{\Request::is('*settings*') ? 'collapse in' : 'collapse'}}">

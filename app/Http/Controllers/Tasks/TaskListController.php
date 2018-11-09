@@ -66,119 +66,231 @@ class TaskListController extends Controller
      * Display the resource.
      *
      * @param  Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function getList(Request $request)
-    {
-        if (\Gate::denies('view', 'tasks')) {
-            abort(403);
-        }
- 
-        $taskFolder = new TaskFolder;
-
-        return $this->buildList($request, $taskFolder);
-    }
-
-    /**
-     * Get the sublist.
-     *
-     * @param  Request  $request
      * @param  string   $taskFolder
      * @return \Illuminate\Http\Response
      */
-    public function getSublist(Request $request, $taskFolder)
+    public function getList(Request $request, $folderId = null)
     {
         if (\Gate::denies('view', 'tasks')) {
             abort(403);
         }
 
-        //Get folder
-        $taskFolder = \Auth::user()->taskFolders()->findOrFail($taskFolder);
+        if (empty($folderId)) {
+            $folder = new TaskFolder;
+        } else {
+            $folder = \Auth::user()->taskFolders()->findOrFail($folderId);
+        }
 
-        return $this->buildList($request, $taskFolder);
+        //Get list data
+        $listData = $this->getListData($request, $folder);
+
+        if ($request->ajax()) {
+            return view('admin.tasks.list_modal_content', [
+                'folders' => $listData['folders'],
+                'items' => $listData['items'],
+                'folder' => $folder,
+                'folderPrimaryAction' => 'list',
+                'itemPath' => 'tasks/task',
+                'folderPath' => 'tasks/folder',
+            ]);
+        } else {
+            //Action menu
+            $actionMenu = [
+                "title" => "create",
+                "actions" => [
+                    "create_folder" => action('Tasks\FolderController@create'),
+                    "create_item" => action('Tasks\ItemController@create'),
+                ],
+            ];
+            
+            return view('admin.tasks.list', [
+                'folders' => $listData['folders'],
+                'items' => $listData['items'],
+                'sortData' => $listData['sortData'],
+                'folder' => $folder,
+                'actionMenu' => $actionMenu,
+                'itemPath' => 'tasks/task',
+                'folderPath' => 'tasks/folder',
+                'folderPrimaryAction' => 'list',
+                'itemActionView' => 'admin.tasks.item_action',
+                'folderActionView' => 'admin.tasks.folder_action'
+            ]);
+        }
+    }
+
+
+    /**
+     * Show the form for folder movement.
+     *
+     * @param  Request  $request
+     * @param  string   $folderId
+     * @return \Illuminate\Http\Response
+     */
+    public function moveFolder(Request $request, $folderId)
+    {
+        if (\Gate::denies('view', 'tasks')) {
+            abort(403);
+        }
+
+        //Prevent method call outside ajax
+        if (!$request->ajax()) {
+            abort(404);
+        }
+
+        $folder = \Auth::user()->taskFolders()->findOrFail($folderId);
+
+        $parentFolder = $folder->parent;
+
+        if (empty($parentFolder)) {
+            $parentFolder = new TaskFolder;
+        }
+
+        //Get list data
+        $listData = $this->getListData($request, $parentFolder);
+
+        return view('admin.tasks.list_modal', [
+                'folders' => $listData['folders'],
+                'items' => $listData['items'],
+                'folder' => $parentFolder,
+                'targetFolder' =>  $folder,
+                'itemPath' => 'tasks/task',
+                'folderPath' => 'tasks/folder',
+                'folderPrimaryAction' => 'list',
+            ]);
     }
 
     /**
      * Show the form for folder movement.
      *
      * @param  Request  $request
-     * @param  string   $taskFolder
+     * @param  string   $itemId
      * @return \Illuminate\Http\Response
      */
-    public function moveFolder(Request $request, $taskFolder)
+    public function moveItem(Request $request, $itemId)
     {
         if (\Gate::denies('view', 'tasks')) {
             abort(403);
         }
 
-        //Get parent folder
-        $parentFolder = \Auth::user()->taskFolders()->findOrFail($taskFolder)->parent;
-
-        if (empty($parentFolder)) {
-            $parentFolder = new TaskFolder;
+        //Prevent method call outside ajax
+        if (!$request->ajax()) {
+            abort(404);
         }
 
-        return $this->buildList($request, $parentFolder);
+        $item = \Auth::user()->taskItems()->findOrFail($itemId);
+
+        $folder = $item->taskFolder;
+
+        if (empty($folder)) {
+            $folder = new TaskFolder;
+        }
+
+        //Get list data
+        $listData = $this->getListData($request, $folder);
+
+        return view('admin.tasks.list_modal', [
+                'folders' => $listData['folders'],
+                'items' => $listData['items'],
+                'folder' => $folder,
+                'targetItem' =>  $item,
+                'itemPath' => 'tasks/task',
+                'folderPrimaryAction' => 'list',
+                'folderPath' => 'tasks/folder',
+            ]);
     }
 
-    public function moveItem()
+    /**
+     * Update folder parent Id.
+     *
+     * @param  Request  $request
+     * @param  string   $folderId
+     * @param  string   $newFolderId
+     * @return \Illuminate\Http\Response
+     */
+    public function moveFolderTo(Request $request, $folderId, $newFolderId = null)
     {
-        //
+        if (\Gate::denies('update', 'tasks')) {
+            abort(403);
+        }
+
+        //Prevent method call outside ajax
+        if (!$request->ajax()) {
+            abort(404);
+        }
+
+        $folder = \Auth::user()->taskFolders()->findOrFail($folderId);
+
+        if (empty($newFolderId)) {
+            $newFolder = null;
+        } else {
+            $newFolder = \Auth::user()->taskFolders()->findOrFail($newFolderId)->id;
+        }
+
+        $folder->update([
+                'task_folder_id' => $newFolder,
+            ]);
+
+        $request->session()->flash('flash_success_message', \Lang::get('admin/tasks.folder_moved'));
+
+        return response()->json();
     }
 
-    public function moveFolderTo()
+    /**
+     * Update item parent Id.
+     *
+     * @param  Request  $request
+     * @param  string   $itemId
+     * @param  string   $newFolderId
+     * @return \Illuminate\Http\Response
+     */
+    public function moveItemTo(Request $request, $itemId, $newFolderId = null)
     {
-        //
-    }
+        if (\Gate::denies('update', 'tasks')) {
+            abort(403);
+        }
 
-    public function moveItemTo()
-    {
-        //
+        //Prevent method call outside ajax
+        if (!$request->ajax()) {
+            abort(404);
+        }
+
+        $item = \Auth::user()->taskItems()->findOrFail($itemId);
+
+        if (empty($newFolderId)) {
+            $newFolder = null;
+        } else {
+            $newFolder = \Auth::user()->taskFolders()->findOrFail($newFolderId)->id;
+        }
+
+        $item->update([
+                'task_folder_id' => $newFolder,
+            ]);
+
+        $request->session()->flash('flash_success_message', \Lang::get('admin/tasks.task_moved'));
+
+        return response()->json();
     }
 
 
     /**
-     * Build view.
+     * Get list data.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  Illuminate\Database\Eloquent\Model $taskFolder
-     * @return Illuminate\View\View
+     * @return array
      */
-    protected function buildList($request, $taskFolder)
+    protected function getListData(Request $request, $folder)
     {
         //Get sort data
         $sortData = $this->handleSorting->getSorting($request);
 
         //Get child folders
-        $folders = $this->getChildFolders($sortData, $taskFolder->id);
+        $folders = $this->getChildFolders($sortData, $folder->id);
 
         //Get list items
-        $items = \Auth::user()->taskItems()->where('task_folder_id', $taskFolder->id)->orderBy($sortData["query"]["sort"], $sortData["query"]["order"])->get();
+        $items = \Auth::user()->taskItems()->where('task_folder_id', $folder->id)->orderBy($sortData["query"]["sort"], $sortData["query"]["order"])->get();
 
-        //Folder menu
-        $folderPath = 'tasks/folder';
-
-        //Item menu
-        $itemPath = 'tasks/list';
-
-        //Action menu
-        $actionMenu = [
-            "title" => "create",
-            "actions" => [
-                "create_folder" => action('Tasks\FolderController@create'),
-                "create_item" => action('Tasks\ItemController@create'),
-            ],
-        ];
-
-        $folderAction = 'admin.tasks.folder_action';
-
-        $itemAction = 'admin.tasks.item_action';
-
-        if ($request->ajax()) {
-            return view('admin.tasks.move', compact('folders', 'taskFolder', 'items', 'sortData', 'folderPath', 'itemPath'));
-        } else {
-            return view('admin.tasks.list', compact('folders', 'taskFolder', 'items', 'sortData', 'actionMenu', 'folderPath', 'itemPath', 'folderAction', 'itemAction'));
-        }
+        return compact('sortData', 'folders', 'items');
     }
 
     /**
@@ -202,12 +314,12 @@ class TaskListController extends Controller
         foreach ($this->getChildren($folderId) as $folder) {
             $items = array();
 
-            $items = $this->countItems($folder->id);
-            
+            $items = $this->countItems($folder->id, $items);
+
             if (isset($items)) {
                 $folder->items_count += array_sum($items);
             }
-            
+
             $folders[] = $folder;
         }
 
@@ -220,14 +332,14 @@ class TaskListController extends Controller
      * @param  int $folderId
      * @return array
      */
-    protected function countItems($folderId)
+    protected function countItems($folderId, $items)
     {
         foreach ($this->folders as $folder) {
             if ($folder->task_folder_id == $folderId) {
                 if ($folder->children->isNotEmpty()) {
-                    $items = $this->countItems($folder->id);
+                    $items = $this->countItems($folder->id, $items);
                 }
-
+                
                 $items[] = $folder->items_count;
             }
         }

@@ -26,4 +26,10 @@ require('./sort_handler');
 
 require('./action_menu');
 
-require('./action_handler');
+require('./list_action_modal_loader');
+
+require('./submit_modal_form');
+
+require('./submit_modal_list');
+
+require('./view_modal_list');

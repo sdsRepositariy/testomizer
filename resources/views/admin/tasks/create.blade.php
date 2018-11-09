@@ -1,6 +1,6 @@
 @extends('components.modal')
 
-@section('form')
+@section('body')
 
 @if($data->exists === true)
 <form class="form-horizontal" method="POST" action="{{ $action }}">
@@ -22,8 +22,7 @@
 			<textarea class="form-control" id="task_group_description" name="description" placeholder="Description" maxlength="255" {{ (Request::is('*/edit')||Request::is('*/create')) ? '' : 'readonly' }}>{{ old('description', $data->description) }}</textarea>
 		</div>
 	</div>
-	<input id="parent_group" type="text" name="parent_group" value="" hidden>
+	<input id="parent_folder" type="text" name="parent_folder" value="{{ isset($parentFolder) ? $parentFolder : '' }}" hidden>
 	<input id="submit_form_hidden" type="submit" hidden>
 </form>
-
 @endsection

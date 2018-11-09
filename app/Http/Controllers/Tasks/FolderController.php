@@ -22,9 +22,10 @@ class FolderController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (\Gate::denies('create', 'tasks')) {
             abort(403);
@@ -32,7 +33,8 @@ class FolderController extends Controller
 
         return view('admin.tasks.create', [
             'data' => new TaskFolder(),
-            'action' => action('Tasks\FolderController@store')
+            'action' => action('Tasks\FolderController@store'),
+            'parentFolder' => $request->parent_folder
         ]);
     }
 
@@ -45,8 +47,8 @@ class FolderController extends Controller
     public function store(ValidateTaskForm $request)
     {
         //Check if parent exist
-        if (isset($request->parent_group)) {
-            $parentFolder = \Auth::user()->taskFolders()->findOrFail($request->parent_group)->id;
+        if (isset($request->parent_folder)) {
+            $parentFolder = \Auth::user()->taskFolders()->findOrFail($request->parent_folder)->id;
         } else {
             $parentFolder = null;
         }
