@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFkToInterpretationsTable extends Migration
+class CreateTaskTestItemTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddFkToInterpretationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('interpretations', function (Blueprint $table) {
-            $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
+        Schema::create('task_test_item', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('test_item_id')->unsigned();
+            $table->integer('task_id')->unsigned();
         });
     }
 
@@ -25,8 +27,6 @@ class AddFkToInterpretationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('interpretations', function (Blueprint $table) {
-            $table->dropForeign('interpretations_test_id_foreign');
-        });
+        Schema::dropIfExists('task_test_item');
     }
 }

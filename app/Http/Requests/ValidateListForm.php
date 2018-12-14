@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ValidateTaskForm extends FormRequest
+class ValidateListForm extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +21,8 @@ class ValidateTaskForm extends FormRequest
         }
 
         //Check permittion to perform an action.
-        if (\Gate::denies($action, 'tasks')) {
+        $prefix = str_replace("/", "", \Request::route()->getPrefix());
+        if (\Gate::denies($action, $prefix)) {
             return false;
         }
 

@@ -99,6 +99,9 @@ Route::group(['middleware'=>'auth'], function () {
     Route::group(['prefix' => 'tests'], function () {
         Route::get('/', 'Tests\TestListController@getList');
         Route::get('/folder/{folderId}/list', 'Tests\TestListController@getlist');
+        Route::resource('test', 'Tests\ItemController', ['except' => ['index']]);
+        Route::get('folder/{folderId}/delete', 'Tests\FolderController@delete');
+        Route::resource('folder', 'Tests\FolderController', ['except' => ['index']]);
     });
     Route::get('/home', 'Users\HomeController@index');
 });

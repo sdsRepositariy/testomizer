@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tests;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Tests\TestItem as TestItem;
 
 class ItemController extends Controller
 {
@@ -22,9 +23,17 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if (\Gate::denies('create', 'tests')) {
+            abort(403);
+        }
+
+        return view('admin.tests.create_test_item', [
+            'data' => new TestItem(),
+            'action' => action('Tests\ItemController@store'),
+            'parentFolder' => $request->parent_folder
+        ]);
     }
 
     /**

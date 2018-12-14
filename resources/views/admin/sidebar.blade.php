@@ -24,7 +24,7 @@
 
   <a href="#tests" data-toggle="collapse" class="list-group-item">Test manager</a>
   <div id="tests" class="{{\Request::is('*tests*') ? 'collapse in' : 'collapse'}}">
-  	<a href="{{ url('tests') }}" class="list-group-item clearfix">
+  	<a href="{{ url('tests') }}" class="list-group-item clearfix {{\Request::is('*tests*') ? 'active' : ''}}">
   		<span class ="pull-right">Test lists</span>
   	</a>
     <a href="#" class="list-group-item clearfix">

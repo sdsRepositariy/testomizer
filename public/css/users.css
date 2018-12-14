@@ -27,12 +27,12 @@ a[href="#"].sort-link:hover{
 }
 
 /*----------Table-----------*/
-#app table th {
+/*#app table th {
     border: 1px solid #ddd;
 }
 #app table td, .sort {
     white-space: nowrap;
-}
+}*/
 
 /*-------------Filters----------*/
 .filter, .searchbar, .header-button{

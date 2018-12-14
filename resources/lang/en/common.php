@@ -19,5 +19,7 @@ return [
     'save' => 'Save',
     'close' => 'Close',
     'move_here' => 'Move here',
+    'add' => 'Add',
+    'action' => "Action",
 
 ];

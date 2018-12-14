@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInterpretationsTable extends Migration
+class AddFkToAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateInterpretationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('interpretations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('test_id')->unsigned();
-            $table->text('interpretation');
-            $table->timestamp('created_at')->nullable();
+        Schema::table('answers', function (Blueprint $table) {
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateInterpretationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('interpretations');
+        Schema::table('answers', function (Blueprint $table) {
+            $table->dropForeign('answers_question_id_foreign');
+        });
     }
 }

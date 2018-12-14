@@ -113,12 +113,11 @@ $avatar-bg-default: lighten(#000, 85%);
 $avatar-bg-primary: $brand-primary;
 $avatar-primary-color: #fff;
 
-
-//App panel
-$app-panel-wrapper-top: 164px;
-
-
 //App header
 $app-header-font-size: 24px;
+$app-header-height: 60px;
 $app-header-color: $brand-primary;
-$app-header-height-md: $app-panel-wrapper-top - $subheader-height - $app-navbar-height;
+$app-header-margin: 15px 0 15px 0;
+
+//App panel
+$app-panel-wrapper-top: $subheader-height + $app-navbar-height + $app-header-height;

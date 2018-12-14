@@ -82,14 +82,16 @@ function getContentHeight ($this) {
 };
 
 function fabShiftUp($this) {
-	var $fab = $("body").find($this.$fab);
+	var $fab;
 
-	var $fabWrapper = $fab.parent($this.options.fabWrapper);
+	$fab = $("body").find($this.$fab);
 
 	//Check if FAB exists
-	if ($fab.lenght == 0) {
+	if ($fab.length == 0)  {
 		return
 	}
+
+	var $fabWrapper = $fab.parent($this.options.fabWrapper);
 
 	//Check if FAB displayed
 	if (($fab.css("display") == "none") || ($fabWrapper.css("display") == "none")) {
@@ -212,7 +214,6 @@ $.fn[pluginName] = function (options) {
 };
 
 //Call plugin
-
 if ($(".snackbar-toggle").length !== 0) {
 	$(".snackbar-toggle").snackbar(); 
 }

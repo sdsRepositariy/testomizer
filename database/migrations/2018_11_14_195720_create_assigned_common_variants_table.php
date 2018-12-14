@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaskTestTable extends Migration
+class CreateAssignedCommonVariantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateTaskTestTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_test', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('test_id')->unsigned();
-            $table->integer('task_id')->unsigned();
-            $table->softDeletes();
+        Schema::create('assigned_common_variants', function (Blueprint $table) {
+            $table->integer('common_variant_id')->unsigned();
+            $table->integer('answer_id')->unsigned();
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateTaskTestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_test');
+        Schema::dropIfExists('assigned_common_variants');
     }
 }

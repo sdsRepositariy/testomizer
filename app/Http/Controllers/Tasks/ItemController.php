@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Tasks;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tasks\TaskItem as TaskItem;
-use App\Http\Requests\ValidateTaskForm as ValidateTaskForm;
+use App\Http\Requests\ValidateListForm as ValidateListForm;
 
 class ItemController extends Controller
 {
@@ -41,10 +41,10 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\ValidateTaskForm $request
+     * @param  App\Http\Requests\ValidateListForm $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidateTaskForm $request)
+    public function store(ValidateListForm $request)
     {
         //Check if parent exist
         if (isset($request->parent_folder)) {
@@ -113,11 +113,11 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\ValidateTaskForm $request
+     * @param  App\Http\Requests\ValidateListForm $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ValidateTaskForm $request, $id)
+    public function update(ValidateListForm $request, $id)
     {
         $item = \Auth::user()->taskItems()->findOrFail($id);
 

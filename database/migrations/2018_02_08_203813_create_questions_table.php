@@ -15,10 +15,11 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('test_id')->unsigned();
-            $table->text('question');
-            $table->integer('code');
+            $table->integer('test_item_id')->unsigned();
+            $table->integer('answer_form_id')->unsigned();
+            $table->text('question')->nullable();
             $table->string('img_path', 255)->nullable();
+            $table->smallInteger('order');
             $table->timestamp('created_at')->nullable();
         });
     }

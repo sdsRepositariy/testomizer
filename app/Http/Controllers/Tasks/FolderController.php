@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Tasks;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tasks\TaskFolder as TaskFolder;
-use App\Http\Requests\ValidateTaskForm as ValidateTaskForm;
+use App\Http\Requests\ValidateListForm as ValidateListForm;
 
 class FolderController extends Controller
 {
@@ -41,10 +41,10 @@ class FolderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\ValidateTaskForm $request
+     * @param  App\Http\Requests\ValidateListForm $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidateTaskForm $request)
+    public function store(ValidateListForm $request)
     {
         //Check if parent exist
         if (isset($request->parent_folder)) {
@@ -114,11 +114,11 @@ class FolderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\ValidateTaskForm $request
+     * @param  App\Http\Requests\ValidateListForm $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ValidateTaskForm $request, $id)
+    public function update(ValidateListForm $request, $id)
     {
         $taskFolder = \Auth::user()->taskFolders()->findOrFail($id);
 
@@ -175,7 +175,9 @@ class FolderController extends Controller
             $items =  $taskFolder->taskItems()->count();
 
             //Count tasks for children folders
-            $childItems = $this->countItems($taskFolders, $taskFolder->id);
+            $childItems = array();
+
+            $childItems = $this->countItems($taskFolders, $taskFolder->id, $childItems);
 
             //Check if tasks exist in chidren folders
             if (isset($childItems)) {
@@ -210,14 +212,15 @@ class FolderController extends Controller
      *
      * @param  Illuminate\Database\Eloquent\Collection $taskFolders
      * @param  int $folderId
+     * @param  array $items
      * @return array
      */
-    protected function countItems($taskFolders, $folderId)
+    protected function countItems($taskFolders, $folderId, $items)
     {
         foreach ($taskFolders as $folder) {
             if ($folder->task_folder_id == $folderId) {
                 if ($folder->children->isNotEmpty()) {
-                    $items = $this->countItems($taskFolders, $folder->id);
+                    $items = $this->countItems($taskFolders, $folder->id, $items);
                 }
                 $items[] = $folder->items_count;
             }

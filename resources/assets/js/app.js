@@ -24,8 +24,6 @@ require('./snackbar');
 
 require('./sort_handler');
 
-require('./action_menu');
-
 require('./list_action_modal_loader');
 
 require('./submit_modal_form');

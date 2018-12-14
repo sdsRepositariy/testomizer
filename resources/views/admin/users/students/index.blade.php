@@ -4,12 +4,6 @@
 <div class="container-fluid full-height">
     <div class="row">
         <div class="col-xs-12">
-            @if ( \Session::has('flash_message') )
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert">&times;</a>
-                {{ \Session::get('flash_message') }}
-            </div>
-            @endif 
             @if ( $errors->has('download_error') )
                 <div class="alert alert-danger alert-dismissable">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -128,6 +122,11 @@
         {{ $list->links() }}
         </div>
     </div>
+    @if ( \Session::has('flash_message') )
+        <div class="snackbar-toggle" data-snackbar-type="success">{{ \Session::get('flash_message') }}</div>
+    @elseif (\Session::has('flash_error_message'))
+        <div class="snackbar-toggle" data-snackbar-type="error">{{ \Session::get('flash_error_message') }}</div>
+    @endif
 </div>
 
 <script>

@@ -58,4 +58,7 @@
   	@include button-variant($app-floating-action-color, $app-floating-action-bg, $app-floating-action-border);
 }
 
-
+//Button sizing
+.round-icon-xs {
+	@include button-size(0, 0, 13px, 3, 50%);
+}

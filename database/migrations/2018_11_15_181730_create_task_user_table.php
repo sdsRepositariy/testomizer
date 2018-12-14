@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateResultsTable extends Migration
+class CreateTaskUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateResultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('results', function (Blueprint $table) {
+        Schema::create('task_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_task_id')->unsigned();
-            $table->integer('answer_id')->unsigned();
-            $table->timestamp('created_at')->nullable();
+            $table->integer('task_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->softDeletes();
         });
     }
@@ -29,6 +28,6 @@ class CreateResultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('results');
+        Schema::dropIfExists('task_user');
     }
 }

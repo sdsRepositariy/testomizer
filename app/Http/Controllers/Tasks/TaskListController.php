@@ -94,21 +94,12 @@ class TaskListController extends Controller
                 'folderPath' => 'tasks/folder',
             ]);
         } else {
-            //Action menu
-            $actionMenu = [
-                "title" => "create",
-                "actions" => [
-                    "create_folder" => action('Tasks\FolderController@create'),
-                    "create_item" => action('Tasks\ItemController@create'),
-                ],
-            ];
-            
             return view('admin.tasks.list', [
                 'folders' => $listData['folders'],
                 'items' => $listData['items'],
                 'sortData' => $listData['sortData'],
                 'folder' => $folder,
-                'actionMenu' => $actionMenu,
+                'actionMenu' => 'admin.tasks.task_action_menu',
                 'itemPath' => 'tasks/task',
                 'folderPath' => 'tasks/folder',
                 'folderPrimaryAction' => 'list',
@@ -330,6 +321,7 @@ class TaskListController extends Controller
      * Travers folder tree and make items array.
      *
      * @param  int $folderId
+     * @param  array $items
      * @return array
      */
     protected function countItems($folderId, $items)

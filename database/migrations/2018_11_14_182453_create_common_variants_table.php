@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInterpretationKeyTable extends Migration
+class CreateCommonVariantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateInterpretationKeyTable extends Migration
      */
     public function up()
     {
-        Schema::create('interpretation_key', function (Blueprint $table) {
+        Schema::create('common_variants', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('key_id')->unsigned();
-            $table->integer('interpretation_id')->unsigned();
-            $table->integer('score_from');
-            $table->integer('score_to');
+            $table->string('variant', 64);
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -29,6 +27,6 @@ class CreateInterpretationKeyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('interpretation_key');
+        Schema::dropIfExists('common_variants');
     }
 }

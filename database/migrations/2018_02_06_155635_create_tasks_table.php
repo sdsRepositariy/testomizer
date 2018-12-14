@@ -17,10 +17,9 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->integer('task_item_id')->unsigned();
             $table->integer('period_id')->unsigned();
-            $table->timestamp('due_date')->nullable();
+            $table->timestamp('valid_until')->nullable();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('created_at')->nullable();
-            $table->softDeletes();
         });
     }
 

@@ -1,0 +1,58 @@
+/*----------Table-----------*/
+#app table td, .sort {
+    white-space: nowrap;
+}
+
+.app-table-collapse {
+	margin-bottom: 0;
+	
+	@media (max-width: $screen-xs-max) {
+		tr {
+			border: 1px solid #ddd;
+
+			&:first-of-type {
+				display: none;
+			}
+
+			&:last-of-type {
+				background-color: #f9f9f9;
+				text-align: right;
+			}
+
+			&:not(:last-of-type) {
+				td:first-child {
+					font-weight: bold;
+					background-color: #f9f9f9;
+
+					&:before {
+						content: attr(data-number-header);
+					}
+				}
+			}	
+		}
+
+		&, tr:not(:first-of-type), thead, tbody, th, td {
+			display: block;
+		}
+
+		td { 
+			border: none !important;
+		}
+		
+		.app-input-section {
+			border: 1px solid #d3e0e9;
+			border-radius: .25rem;
+			margin-bottom: 10px;
+			@include clearfix;
+
+			td:last-of-type {
+				float: left;
+			}
+		}
+
+		.cell-xs-6 {
+			width: 50%;
+			float: left;
+		}
+	}
+}

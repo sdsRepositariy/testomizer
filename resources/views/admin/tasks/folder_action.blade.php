@@ -3,25 +3,41 @@
 		<span class="glyphicon glyphicon-option-vertical"></span>
 	</button>
 	<ul class="dropdown-menu dropdown-menu-right">
-		<li>
+		@if (\Gate::denies('view', 'tasks'))
+        <li class="disabled">
+        @else
+        <li>
+        @endif
 			<a href="{{ url($folderPath, $folder->id) }}" data-modal-title="@lang('admin/tasks.view_group')">
 				<span class="glyphicon glyphicon-info-sign"></span>
 				<div>@lang('common.info')</div>
 			</a>
 		</li>
-		<li>
+		@if (\Gate::denies('update', 'tasks'))
+        <li class="disabled">
+        @else
+        <li>
+        @endif
 			<a href="{{ url($folderPath, [$folder->id, 'edit']) }}" data-modal-title="@lang('admin/tasks.edit_group')">
 				<span class="glyphicon glyphicon-edit"></span>
 				<div>@lang('common.edit')</div>
 			</a>
 		</li>
-		<li>
+		@if (\Gate::denies('update', 'tasks'))
+        <li class="disabled">
+        @else
+        <li>
+        @endif
 			<a href="{{ url($folderPath, [$folder->id, 'move']) }}" data-modal-title="@lang('admin/tasks.move_group')">
 				<span class="glyphicon glyphicon-transfer"></span>
 				<div>@lang('common.move')</div>
 			</a>
 		</li>
-		<li>
+		@if (\Gate::denies('delete', 'tasks'))
+        <li class="disabled">
+        @else
+        <li>
+        @endif
 			<a href="{{ url($folderPath, [$folder->id, 'delete']) }}" data-modal-title="@lang('admin/tasks.delete_group')">
 				<span class="glyphicon glyphicon-trash"></span>
 				<div>@lang('common.delete')</div>

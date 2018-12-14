@@ -1,5 +1,4 @@
-const { mix } = require('laravel-mix');
-
+let mix = require('laravel-mix');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,7 +11,13 @@ const { mix } = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css')
-   .options({
+	.extract(['./node_modules/jquery/dist/jquery', 'bootstrap-sass', 'lodash'])
+	.autoload({
+        jquery: ['$', 'window.jQuery', 'jQuery'],
+    })
+	.sass('resources/assets/sass/app.scss', 'public/css')
+	.options({
         processCssUrls: false
-   });
+	});
+
+// mix.copy('node_modules/jquery/dist/jquery.min.js', 'public/js/jquery.min.js');

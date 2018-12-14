@@ -97,3 +97,11 @@
 	background-color: $avatar-bg-primary;
 	color: $avatar-primary-color;
 }
+
+.app-form-list {
+	>.row>div:not(:first-child) {
+		@media (max-width: $screen-xs-max) {
+			margin-bottom: 15px;
+		}
+	}
+}

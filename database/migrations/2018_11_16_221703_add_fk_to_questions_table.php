@@ -14,7 +14,8 @@ class AddFkToQuestionsTable extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
+            $table->foreign('test_item_id')->references('id')->on('test_items')->onDelete('cascade');
+            $table->foreign('answer_form_id')->references('id')->on('answer_forms')->onDelete('cascade');
         });
     }
 
@@ -26,7 +27,8 @@ class AddFkToQuestionsTable extends Migration
     public function down()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->dropForeign('questions_test_id_foreign');
+            $table->dropForeign('questions_test_item_id_foreign');
+            $table->dropForeign('questions_answer_form_id_foreign');
         });
     }
 }

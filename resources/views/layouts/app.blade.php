@@ -23,8 +23,9 @@
         ]) !!};
     </script>
     
-    <script src="{{ asset('js/vendors/jquery.min.js') }}"></script>
+    <!-- <script src="{{ asset('js/jquery.min.js') }}"></script> -->
     <script src="{{ asset('js/layoutsettings.js') }}"></script>
+
 </head>
 <body>
     <div id="app">
@@ -54,7 +55,7 @@
                 </div>
                 
                 @if (isset($actionMenu))
-                    @include('components.action_menu', $actionMenu)
+                    @include($actionMenu)
                 @endif
 
                 <div class="dropdown clearfix pull-right">
@@ -103,8 +104,10 @@
         <div id="app_modal"></div>
     </div>
     <!-- Scripts -->
+    <script src="{{ asset('js/manifest.js') }}"></script>
+    <script src="{{ asset('js/vendor.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <!-- <script src="{{ asset('js/users.js') }}"></script> -->
+
     <script src="{{ asset('js/sliding.js') }}"></script>
 </body>
 </html>

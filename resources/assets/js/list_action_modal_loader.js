@@ -6,7 +6,7 @@ $.fn.listActionModalLoader = function( settings ) {
 	var self = this;
 
 	self.options =  $.extend({
-    	action: $(this).find("a"),
+    	action: $(this).find("a[data-modal-title]"),
         titleAttr: "data-modal-title",
         parentFolderAttr: "data-parent-folder",
         appModal: "#app_modal",

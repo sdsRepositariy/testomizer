@@ -12,14 +12,15 @@
 	}
 	
 	@media (min-width: $screen-md-min) {
-		line-height: $app-header-height-md;
+		line-height: $app-header-height;
 	}
 
 	@media (max-width: $screen-sm-max) {
-		margin: 15px 0 15px 0;
+		margin: $app-header-margin;
 	}
 }
 
+//Modal settings
 .modal-body .app-header {
 	@media (min-width: $screen-md-min) {
 		margin: 0 0 15px 0;

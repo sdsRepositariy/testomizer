@@ -13,6 +13,7 @@ return [
 
     'create_folder' => 'New group',
     'create_item' => 'New task',
+    'create_test_item' => 'New test',
     'create' => 'Create',
 
 

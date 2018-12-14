@@ -4,12 +4,6 @@
 <div class="container-fluid full-height">
     <div class="row">
         <div class="col-xs-12">
-            @if ( \Session::has('flash_message') )
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert">&times;</a>
-                {{ \Session::get('flash_message') }}
-            </div>
-            @endif
         	<div class="panel panel-default">
         		<!-- Nav tabs -->
         		<ul class="nav nav-pills nav-justified">
@@ -63,6 +57,11 @@
         	</div>
         </div>
     </div>
+    @if ( \Session::has('flash_message') )
+        <div class="snackbar-toggle" data-snackbar-type="success">{{ \Session::get('flash_message') }}</div>
+    @elseif (\Session::has('flash_error_message'))
+        <div class="snackbar-toggle" data-snackbar-type="error">{{ \Session::get('flash_error_message') }}</div>
+    @endif
 </div>
 
 @endsection

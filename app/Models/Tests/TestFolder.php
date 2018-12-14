@@ -3,6 +3,7 @@
 namespace App\Models\Tests;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Tests\TestItem as TestItem;
 
 class TestFolder extends Model
 {
@@ -18,9 +19,19 @@ class TestFolder extends Model
      *
      * @var array
     */
-    protected $fillable = ['name', 'description', 'task_folder_id'];
+    protected $fillable = ['name', 'description', 'test_folder_id'];
 
-        /**
+    /**------------Model relationships------------*/
+
+    /**
+     * Get the test list for the folder.
+     */
+    public function testItems()
+    {
+        return $this->hasMany(TestItem::class);
+    }
+
+    /**
     * Get the parent folder.
     */
     public function parent()
